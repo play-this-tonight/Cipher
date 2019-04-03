@@ -23,6 +23,29 @@
   color: #61dafb;
 }
 
+.previousGuesses {
+  display: flex;
+  flex-direction: row;
+}
+
+li {
+  list-style-type: none;
+}
+
+li.clue {
+  display: flex;
+  flex-direction: row;
+  margin: 20px;
+}
+
+li.clue > p {
+  margin: 5px 10px;
+}
+
+li.clue > input {
+  width: 50px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
