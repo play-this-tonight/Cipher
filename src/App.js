@@ -4,7 +4,7 @@ import 'normalize.css';
 import './App.css';
 
 
-const RoundClue = ({ clue, setGuess }) => {
+const RoundClue = ({ clue, setGuess, valid }) => {
 
   return (
     <li className="clue">
@@ -12,8 +12,13 @@ const RoundClue = ({ clue, setGuess }) => {
       <input
         type="number"
         min="1" max="4"
-        onChange={ (e) => setGuess(Number(e.target.value))}
+        onChange={(e) => setGuess(Number(e.target.value))}
       />
+      {
+        valid === false
+          ? <p className="red">Numbers are not repeated in sequence.</p>
+          : null
+      }
     </li>
   )
 }
@@ -24,7 +29,7 @@ const GuessDisplay = ({ guessNumber, guesses }) => {
     <div>
       <h4>{guessNumber}</h4>
       <ul>{
-        guesses.map( (guess) => <li>{guess}</li> )
+        guesses.map((guess) => <li>{guess}</li>)
       }</ul>
     </div>
   )
@@ -35,7 +40,7 @@ class App extends Component {
     super();
 
     this.state = {
-      roundClues : [
+      roundClues: [
         {
           word: "Telephone",
           guess: null,
@@ -49,13 +54,13 @@ class App extends Component {
           guess: null,
         },
       ],
-      "currentGuess1" : null,
-      "currentGuess2" : null,
-      "currentGuess3" : null,
-      "guesses1" : ["iPhone"],
-      "guesses2" : [],
-      "guesses3" : [],
-      "guesses4" : [],
+      "currentGuess1": null,
+      "currentGuess2": null,
+      "currentGuess3": null,
+      "guesses1": ["iPhone"],
+      "guesses2": [],
+      "guesses3": [],
+      "guesses4": [],
     }
   }
 
@@ -88,14 +93,33 @@ class App extends Component {
       guesses4,
     };
 
-    const guessGroup = roundClues.reduce( (newGuesses, clue) => {
-      const guessKey = "guesses" + clue.guess;
-      newGuesses[guessKey] = currentGuesses[guessKey].concat(clue.word);
-      return newGuesses;
-    }, {});
+    const checkedRoundClues = roundClues
+      .map((clue) => clue.guess)
+      .map((clueToMatch, index, clues) => {
+        return clues.filter((clue) => clue === clueToMatch).length === 1
+      })
+
+    if (checkedRoundClues.indexOf(false) !== -1) {
+      const validatedRoundClues = checkedRoundClues.map((item, index) => ({
+        ...roundClues[index],
+        valid: item
+      }));
+      this.setState({
+        roundClues: validatedRoundClues
+      });
+      return;
+    }
+
+    const guessGroup = roundClues
+      .reduce((newGuesses, clue) => {
+        const guessKey = "guesses" + clue.guess;
+        newGuesses[guessKey] = currentGuesses[guessKey].concat(clue.word);
+        return newGuesses;
+      }, {})
+
     this.setState(guessGroup);
     this.setState({
-      "roundClues" : [],
+      "roundClues": [],
     })
   }
 
@@ -108,11 +132,12 @@ class App extends Component {
             {this.state.roundClues.map((clue, index) =>
               <RoundClue
                 clue={clue.word}
+                valid={clue.valid}
                 setGuess={this.setGuess(clue, index)}
               />
             )}
           </ul>
-          <button onClick ={this.makeGuess}>Submit Guess</button>
+          <button onClick={this.makeGuess}>Submit Guess</button>
         </section>
         <section>
           <h2>Previous Guesses</h2>
