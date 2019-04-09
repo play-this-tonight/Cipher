@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import { checkAnswers, getCluesForRound } from '../Utility/parseWords';
 
-const RoundClue = ({ clue, setGuess, valid }) => {
-
+const RoundClue = ({ clue, setGuess, valid, guess }) => {
   return (
     <li className="clue">
       <p>{clue}</p>
@@ -9,6 +9,7 @@ const RoundClue = ({ clue, setGuess, valid }) => {
         type="number"
         min="1" max="4"
         onChange={(e) => setGuess(Number(e.target.value))}
+        value={guess}
       />
       {
         valid === false
@@ -20,15 +21,31 @@ const RoundClue = ({ clue, setGuess, valid }) => {
 }
 
 const GuessDisplay = ({ guessNumber, guesses }) => {
-
   return (
     <div>
       <h4>{guessNumber}</h4>
       <ul>{
-        guesses.map((guess) => <li>{guess}</li>)
+        guesses.map(({ word, correct }) => (
+          <GuessedWord
+            word={word}
+            correct={correct}
+          />
+        ))
       }</ul>
     </div>
   )
+}
+
+const GuessedWord = ({ word, correct }) => {
+  const cX = () => {
+    if (correct) {
+      return "green";
+    } else {
+      return "strikethrough";
+    }
+  }
+
+  return <li className={cX()}>{word}</li>
 }
 
 class MainGame extends Component {
@@ -36,100 +53,104 @@ class MainGame extends Component {
     super();
 
     this.state = {
-      roundClues: [
-        {
-          word: "Telephone",
-          guess: null,
-        },
-        {
-          word: "Banana",
-          guess: null,
-        },
-        {
-          word: "Bowling Ball",
-          guess: null,
-        },
-      ],
-      "currentGuess1": null,
-      "currentGuess2": null,
-      "currentGuess3": null,
-      "guesses1": ["iPhone"],
-      "guesses2": [],
-      "guesses3": [],
-      "guesses4": [],
+      clueWords: [],
+      guessWords: [],
+      gameState: {
+        currentRound: 1,
+        correctGuesses: 0,
+        incorrectGuesses: 0,
+      }
     }
+
+    // this.setState({
+    //   clueWords: this.getWordsForRound()
+    // })
+
+    // console.log(this.state);
   }
 
+  componentDidMount() {
+    this.setState({
+      clueWords: this.getWordsForRound(this.state.gameState.currentRound),
+    });
+  }
 
-  setGuess = (clue, index) => (value) => {
-    const { roundClues } = this.state;
-    const setClues = roundClues.map((item, mappingIndex) => {
+  getWordsForRound = (round) => {
+    const createNewClue = this.createNewClue.bind(this);
+    return getCluesForRound(round).map(createNewClue);
+  }
+
+  createNewClue = (word) => ({
+    word,
+    guess: '',
+    correct: null
+  });
+
+  setGuess = (index) => (value) => {
+    const { clueWords } = this.state;
+    const setClues = clueWords.map((item, mappingIndex) => {
       if (mappingIndex === index) return {
         ...item,
         guess: value
       }
       return item;
     });
-    this.setState({ roundClues: setClues });
+    this.setState({ clueWords: setClues });
   };
 
   makeGuess = () => {
     const {
-      roundClues,
-      guesses1,
-      guesses2,
-      guesses3,
-      guesses4,
+      guessWords,
+      clueWords,
+      gameState: {
+        currentRound
+      }
     } = this.state;
 
-    const currentGuesses = {
-      guesses1,
-      guesses2,
-      guesses3,
-      guesses4,
-    };
-
-    const checkedRoundClues = roundClues
+    const checkedClueWords = clueWords
       .map((clue) => clue.guess)
       .map((clueToMatch, index, clues) => {
         return clues.filter((clue) => clue === clueToMatch).length === 1
       })
 
-    if (checkedRoundClues.indexOf(false) !== -1) {
-      const validatedRoundClues = checkedRoundClues.map((item, index) => ({
-        ...roundClues[index],
+    if (checkedClueWords.indexOf(false) !== -1) {
+      const validatedRoundClues = checkedClueWords.map((item, index) => ({
+        ...clueWords[index],
         valid: item
       }));
       this.setState({
-        roundClues: validatedRoundClues
+        clueWords: validatedRoundClues
       });
       return;
     }
+    const nextRound = currentRound + 1;
 
-    const guessGroup = roundClues
-      .reduce((newGuesses, clue) => {
-        const guessKey = "guesses" + clue.guess;
-        newGuesses[guessKey] = currentGuesses[guessKey].concat(clue.word);
-        return newGuesses;
-      }, {})
+    console.log(checkAnswers(currentRound, clueWords));
 
-    this.setState(guessGroup);
     this.setState({
-      "roundClues": [],
-    })
+      gameState: {
+        ...this.gameState,
+        currentRound: nextRound
+      },
+      guessWords: guessWords.concat(checkAnswers(currentRound, clueWords)),
+      clueWords: this.getWordsForRound(nextRound)
+    });
   }
 
+
   render() {
+    const { clueWords, guessWords } = this.state;
     return (
       <div>
         <h1>Round 1</h1>
         <section className="clues">
           <ul>
-            {this.state.roundClues.map((clue, index) =>
+            {clueWords.map((clue, index) =>
               <RoundClue
                 clue={clue.word}
                 valid={clue.valid}
-                setGuess={this.setGuess(clue, index)}
+                setGuess={this.setGuess(index)}
+                guess={clue.guess}
               />
             )}
           </ul>
@@ -140,19 +161,19 @@ class MainGame extends Component {
           <section className="previousGuesses">
             <GuessDisplay
               guessNumber={1}
-              guesses={this.state.guesses1}
+              guesses={guessWords.filter((word) => word.guess === 1)}
             />
             <GuessDisplay
               guessNumber={2}
-              guesses={this.state.guesses2}
+              guesses={guessWords.filter((word) => word.guess === 2)}
             />
             <GuessDisplay
               guessNumber={3}
-              guesses={this.state.guesses3}
+              guesses={guessWords.filter((word) => word.guess === 3)}
             />
             <GuessDisplay
               guessNumber={4}
-              guesses={this.state.guesses4}
+              guesses={guessWords.filter((word) => word.guess === 4)}
             />
           </section>
         </section>
