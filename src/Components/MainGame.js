@@ -139,45 +139,66 @@ class MainGame extends Component {
 
 
   render() {
-    const { clueWords, guessWords } = this.state;
+    const {
+      clueWords,
+      guessWords,
+      gameState: {
+        currentRound
+      }
+    } = this.state;
     return (
-      <div>
-        <h1>Round 1</h1>
-        <section className="clues">
+      <section class="row">
+        <sidebar class="col-xs-1 col-lg-1">
+          <h6>Rounds</h6>
           <ul>
-            {clueWords.map((clue, index) =>
-              <RoundClue
-                clue={clue.word}
-                valid={clue.valid}
-                setGuess={this.setGuess(index)}
-                guess={clue.guess}
-              />
-            )}
+            {
+              Array.apply(null, { length: currentRound }).map((item, i) => <li>{i + 1}</li>)
+            }
           </ul>
-          <button onClick={this.makeGuess}>Submit Guess</button>
-        </section>
-        <section>
-          <h2>Previous Guesses</h2>
-          <section className="previousGuesses">
-            <GuessDisplay
-              guessNumber={1}
-              guesses={guessWords.filter((word) => word.guess === 1)}
-            />
-            <GuessDisplay
-              guessNumber={2}
-              guesses={guessWords.filter((word) => word.guess === 2)}
-            />
-            <GuessDisplay
-              guessNumber={3}
-              guesses={guessWords.filter((word) => word.guess === 3)}
-            />
-            <GuessDisplay
-              guessNumber={4}
-              guesses={guessWords.filter((word) => word.guess === 4)}
-            />
-          </section>
-        </section>
-      </div>
+        </sidebar>
+
+        <div class="col-xs-11">
+          <div class="row">
+            <div class="col-xs-12 col-lg-4">
+              <h1>Round {currentRound}</h1>
+              <section className="clues">
+                <ul>
+                  {clueWords.map((clue, index) =>
+                    <RoundClue
+                      clue={clue.word}
+                      valid={clue.valid}
+                      setGuess={this.setGuess(index)}
+                      guess={clue.guess}
+                    />
+                  )}
+                </ul>
+                <button onClick={this.makeGuess}>Submit Guess</button>
+              </section>
+              <section>
+                <h2>Previous Guesses</h2>
+                <section className="previousGuesses">
+                  <GuessDisplay
+                    guessNumber={1}
+                    guesses={guessWords.filter((word) => word.guess === 1)}
+                  />
+                  <GuessDisplay
+                    guessNumber={2}
+                    guesses={guessWords.filter((word) => word.guess === 2)}
+                  />
+                  <GuessDisplay
+                    guessNumber={3}
+                    guesses={guessWords.filter((word) => word.guess === 3)}
+                  />
+                  <GuessDisplay
+                    guessNumber={4}
+                    guesses={guessWords.filter((word) => word.guess === 4)}
+                  />
+                </section>
+              </section>
+            </div>
+          </div>
+        </div>
+      </section>
     );
   }
 }

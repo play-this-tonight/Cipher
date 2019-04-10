@@ -1,5 +1,21 @@
 body {
   margin: 50px;
+  --red: #C1292E;
+  --black: #161925;
+  --white: #dbe4ee;
+  --yellow: #f1d302;
+  --blue: #235789;
+  font-family: 'Lato', sans-serif;
+  background-color: var(--yellow);
+  margin: 0;
+}
+header {
+  background-color: var(--black);
+  color: var(--white);
+}
+
+header h1 {
+  margin-left: 20px;
 }
 
 .App {
