@@ -22,6 +22,44 @@ header h1 {
   text-align: center;
 }
 
+.roundDetail {
+  text-align: center;
+  background-color: var(--black);
+  padding-top: 10px;
+  height: 32px;
+  width: 32px;
+  color: var(--yellow);
+  margin-top: 10px;
+}
+
+.roundDetail:hover span {
+  display: inline;
+}
+
+.roundDetail span {
+  color: var(--black);
+  position: relative;
+  right: -25px;
+  display: none;
+}
+
+.guessRow {
+  height: 50px;
+}
+
+.guessRow input {
+  font-size: 20px;
+}
+
+.roundCountContainer {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  justify-content: space-evenly;
+}
+
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 40vmin;

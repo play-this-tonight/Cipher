@@ -42,10 +42,12 @@ const newWords = words
 const wordFind = (userWord) => ({ word }) => (userWord === word);
 
 const checkAnswers = (roundNumber, userAnswers) => (
-  userAnswers.map(({ word, guess }) => ({
+  userAnswers.map(({ word, guess }, index) => ({
     word,
     guess,
+    locationInSequence: index + 1,
     correct: newWords[roundNumber].find(wordFind(word)).answer === guess,
+    roundNumber,
   }))
 )
 

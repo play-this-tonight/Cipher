@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 import { checkAnswers, getCluesForRound } from '../Utility/parseWords';
+import Guesses from './Guesses';
+import RoundTracker from './RoundTracker';
 
-const RoundClue = ({ clue, setGuess, valid, guess }) => {
+const RoundClue = ({ clue, valid }) => {
   return (
     <li className="clue">
       <p>{clue}</p>
-      <input
-        type="number"
-        min="1" max="4"
-        onChange={(e) => setGuess(Number(e.target.value))}
-        value={guess}
-      />
       {
         valid === false
           ? <p className="red">Numbers are not repeated in sequence.</p>
@@ -18,34 +14,6 @@ const RoundClue = ({ clue, setGuess, valid, guess }) => {
       }
     </li>
   )
-}
-
-const GuessDisplay = ({ guessNumber, guesses }) => {
-  return (
-    <div>
-      <h4>{guessNumber}</h4>
-      <ul>{
-        guesses.map(({ word, correct }) => (
-          <GuessedWord
-            word={word}
-            correct={correct}
-          />
-        ))
-      }</ul>
-    </div>
-  )
-}
-
-const GuessedWord = ({ word, correct }) => {
-  const cX = () => {
-    if (correct) {
-      return "green";
-    } else {
-      return "strikethrough";
-    }
-  }
-
-  return <li className={cX()}>{word}</li>
 }
 
 class MainGame extends Component {
@@ -61,12 +29,6 @@ class MainGame extends Component {
         incorrectGuesses: 0,
       }
     }
-
-    // this.setState({
-    //   clueWords: this.getWordsForRound()
-    // })
-
-    // console.log(this.state);
   }
 
   componentDidMount() {
@@ -125,8 +87,6 @@ class MainGame extends Component {
     }
     const nextRound = currentRound + 1;
 
-    console.log(checkAnswers(currentRound, clueWords));
-
     this.setState({
       gameState: {
         ...this.gameState,
@@ -146,57 +106,46 @@ class MainGame extends Component {
         currentRound
       }
     } = this.state;
+
+    const roundArray = Array.apply(null, { length: currentRound }).map((item, i) => i + 1);
+
     return (
       <section class="row">
-        <sidebar class="col-xs-1 col-lg-1">
-          <h6>Rounds</h6>
-          <ul>
-            {
-              Array.apply(null, { length: currentRound }).map((item, i) => <li>{i + 1}</li>)
-            }
-          </ul>
-        </sidebar>
+        <RoundTracker
+          roundArray={roundArray}
+          guessedWords={guessWords}
+        />
 
-        <div class="col-xs-11">
-          <div class="row">
-            <div class="col-xs-12 col-lg-4">
-              <h1>Round {currentRound}</h1>
-              <section className="clues">
-                <ul>
-                  {clueWords.map((clue, index) =>
-                    <RoundClue
-                      clue={clue.word}
-                      valid={clue.valid}
-                      setGuess={this.setGuess(index)}
-                      guess={clue.guess}
-                    />
-                  )}
-                </ul>
-                <button onClick={this.makeGuess}>Submit Guess</button>
-              </section>
-              <section>
-                <h2>Previous Guesses</h2>
-                <section className="previousGuesses">
-                  <GuessDisplay
-                    guessNumber={1}
-                    guesses={guessWords.filter((word) => word.guess === 1)}
-                  />
-                  <GuessDisplay
-                    guessNumber={2}
-                    guesses={guessWords.filter((word) => word.guess === 2)}
-                  />
-                  <GuessDisplay
-                    guessNumber={3}
-                    guesses={guessWords.filter((word) => word.guess === 3)}
-                  />
-                  <GuessDisplay
-                    guessNumber={4}
-                    guesses={guessWords.filter((word) => word.guess === 4)}
-                  />
-                </section>
-              </section>
-            </div>
+        <div className="row col-xs-9 col-lg-11">
+          <div class="col-xs-12">
+            <h1>Round {currentRound}</h1>
           </div>
+          <section className="clues col-xs-12 col-lg-4">
+            <ul>
+              {clueWords.map((clue, index) =>
+                <RoundClue
+                  clue={clue.word}
+                  valid={clue.valid}
+                />
+              )}
+            </ul>
+            <div className="row around-xs guessRow">
+              {clueWords.map((clue, index) => {
+                const setGuess = this.setGuess(index);
+                return <input
+                  className={`guess word-${index + 1} col-xs-2`}
+                  setGuess={this.setGuess(index)}
+                  type="integer"
+                  maxLength="1"
+                  onChange={(e) => setGuess(parseInt(e.target.value))}
+                  value={clue.guess}
+                />
+              }
+              )}
+            </div>
+            <button onClick={this.makeGuess}>Submit Guess</button>
+          </section>
+          <Guesses guessWords={guessWords} />
         </div>
       </section>
     );
