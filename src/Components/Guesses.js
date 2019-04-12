@@ -34,22 +34,14 @@ const Guesses = ({ guessWords }) => {
     <section className="col-lg-6 col-xs-12" >
       <h2>Previous Guesses</h2>
       <section className="previousGuesses">
-        <GuessDisplay
-          guessNumber={1}
-          guesses={guessWords.filter((word) => word.guess === 1)}
-        />
-        <GuessDisplay
-          guessNumber={2}
-          guesses={guessWords.filter((word) => word.guess === 2)}
-        />
-        <GuessDisplay
-          guessNumber={3}
-          guesses={guessWords.filter((word) => word.guess === 3)}
-        />
-        <GuessDisplay
-          guessNumber={4}
-          guesses={guessWords.filter((word) => word.guess === 4)}
-        />
+        {
+          [1, 2, 3, 4, 5, 6].map((number) => (
+            <GuessDisplay
+              guessNumber={number}
+              guesses={guessWords.filter((word) => word.guess === number)}
+            />
+          ))
+        }
       </section>
     </section >
   );

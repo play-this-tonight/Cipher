@@ -11,9 +11,9 @@ const DialButton = ({ number, pressed, setGuess }) => (
 
 const DialPad = ({ guessedNumbers, setGuess }) => {
   const dialArray = [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9],
+    [1, 4],
+    [2, 5],
+    [3, 6],
   ]
 
   return (
