@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { checkAnswers, getCluesForRound } from '../Utility/parseWords';
 import Guesses from './Guesses';
 import RoundTracker from './RoundTracker';
+import DialPad from './DialPad';
 
 const RoundClue = ({ clue, valid }) => {
   return (
@@ -16,11 +17,18 @@ const RoundClue = ({ clue, valid }) => {
   )
 }
 
+const getNextActiveInput = (clueWords) => {
+  const nextWord = clueWords.find(({ guess }) => guess === '');
+  const indexOfNextWord = clueWords.indexOf(nextWord);
+  return [nextWord, indexOfNextWord];
+}
+
 class MainGame extends Component {
   constructor() {
     super();
 
     this.state = {
+      indexOfNextWord: 0,
       clueWords: [],
       guessWords: [],
       gameState: {
@@ -37,6 +45,16 @@ class MainGame extends Component {
     });
   }
 
+  moveIndex = (clueWords, currentIndex) => {
+    console.log(clueWords);
+    const [nextWord, indexOfNextWord] = getNextActiveInput(clueWords);
+    console.log(nextWord);
+    if (nextWord) {
+      document.querySelector(`[name="${nextWord.word}"]`).focus();
+    }
+    return indexOfNextWord;
+  }
+
   getWordsForRound = (round) => {
     const createNewClue = this.createNewClue.bind(this);
     return getCluesForRound(round).map(createNewClue);
@@ -49,7 +67,7 @@ class MainGame extends Component {
   });
 
   setGuess = (index) => (value) => {
-    const { clueWords } = this.state;
+    const { clueWords, indexOfNextWord } = this.state;
     const setClues = clueWords.map((item, mappingIndex) => {
       if (mappingIndex === index) return {
         ...item,
@@ -57,7 +75,11 @@ class MainGame extends Component {
       }
       return item;
     });
-    this.setState({ clueWords: setClues });
+    const nextIndex = this.moveIndex(setClues, indexOfNextWord);
+    this.setState({
+      clueWords: setClues,
+      indexOfNextWord: nextIndex
+    });
   };
 
   makeGuess = () => {
@@ -102,6 +124,7 @@ class MainGame extends Component {
     const {
       clueWords,
       guessWords,
+      indexOfNextWord,
       gameState: {
         currentRound
       }
@@ -117,34 +140,42 @@ class MainGame extends Component {
         />
 
         <div className="row col-xs-9 col-lg-11">
-          <div class="col-xs-12">
-            <h1>Round {currentRound}</h1>
+          <div className="box">
+            <section className="clues col-xs-12 col-lg-6">
+              <div className="row between-xs guessRow">
+                {clueWords.map((clue, index) => {
+                  const setGuess = this.setGuess(index);
+                  return (
+                    <div className="col-xs-4">
+                      <div className="box inputBox">
+                        <input
+                          name={clue.word}
+                          className={`guess word-${index + 1} col-xs-6`}
+                          setGuess={this.setGuess(index)}
+                          type="integer"
+                          maxLength="1"
+                          onChange={(e) => setGuess(parseInt(e.target.value))}
+                          value={clue.guess}
+                        />
+                        <p>{clue.word}</p>
+                      </div>
+                    </div>
+                  )
+                }
+                )}
+              </div>
+              <DialPad
+                guessedNumbers={clueWords.map(({ guess }) => guess)}
+                setGuess={this.setGuess(indexOfNextWord)}
+              />
+              <button onClick={this.makeGuess}>Submit Guess</button>
+              <div className="locks row">
+                <img src="https://img.icons8.com/metro/52/000000/lock.png"></img>
+                <img src="https://img.icons8.com/metro/52/000000/lock.png"></img>
+                <img src="https://img.icons8.com/metro/52/000000/lock.png"></img>
+              </div>
+            </section>
           </div>
-          <section className="clues col-xs-12 col-lg-4">
-            <ul>
-              {clueWords.map((clue, index) =>
-                <RoundClue
-                  clue={clue.word}
-                  valid={clue.valid}
-                />
-              )}
-            </ul>
-            <div className="row around-xs guessRow">
-              {clueWords.map((clue, index) => {
-                const setGuess = this.setGuess(index);
-                return <input
-                  className={`guess word-${index + 1} col-xs-2`}
-                  setGuess={this.setGuess(index)}
-                  type="integer"
-                  maxLength="1"
-                  onChange={(e) => setGuess(parseInt(e.target.value))}
-                  value={clue.guess}
-                />
-              }
-              )}
-            </div>
-            <button onClick={this.makeGuess}>Submit Guess</button>
-          </section>
           <Guesses guessWords={guessWords} />
         </div>
       </section>
