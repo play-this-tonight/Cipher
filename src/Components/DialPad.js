@@ -1,15 +1,20 @@
 import React from 'react';
 
-const DialButton = ({ number, pressed, setGuess }) => (
+const DialButton = ({ number, pressed, setGuess, unsetGuess }) => (
   <button
     className={pressed ? "pressed" : ""}
-    onClick={() => setGuess(number)}
+    onClick={() => {
+      if (pressed) {
+        return unsetGuess(number);
+      }
+      setGuess(number)
+    }}
   >
     {number}
   </button>
 )
 
-const DialPad = ({ guessedNumbers, setGuess }) => {
+const DialPad = ({ guessedNumbers, setGuess, unsetGuess }) => {
   const dialArray = [
     [1, 4],
     [2, 5],
@@ -17,15 +22,16 @@ const DialPad = ({ guessedNumbers, setGuess }) => {
   ]
 
   return (
-    <div className="row dialPad">
+    <div className="dialPad">
       {
         dialArray.map((dialRow) => (
-          <div className="col-xs-12">
+          <div className="col-xs-12 row">
             {dialRow.map(number => (
               <DialButton
                 pressed={guessedNumbers.includes(number)}
                 setGuess={setGuess}
                 number={number}
+                unsetGuess={unsetGuess}
               />
             ))}
           </div>

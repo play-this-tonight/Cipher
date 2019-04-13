@@ -82,6 +82,25 @@ class MainGame extends Component {
     });
   };
 
+  unsetGuess = (value) => {
+    const { clueWords, indexOfNextWord } = this.state;
+
+    const unsetClues = clueWords.map((word) => {
+      if (word.guess !== value) return word;
+
+      return {
+        ...word,
+        guess: ''
+      }
+    });
+
+    const nextIndex = this.moveIndex(unsetClues, indexOfNextWord);
+    this.setState({
+      clueWords: unsetClues,
+      indexOfNextWord: nextIndex,
+    })
+  }
+
   makeGuess = () => {
     const {
       guessWords,
@@ -139,43 +158,53 @@ class MainGame extends Component {
           guessedWords={guessWords}
         />
 
-        <div className="row col-xs-9 col-lg-11">
-          <div className="box">
-            <section className="clues col-xs-12 col-lg-6">
+        <div className="col-xs-9 col-md-11">
+          <div className="row">
+            <section className="col-xs-12">
               <div className="row between-xs guessRow">
                 {clueWords.map((clue, index) => {
                   const setGuess = this.setGuess(index);
                   return (
                     <div className="col-xs-4">
-                      <div className="box inputBox">
-                        <input
-                          name={clue.word}
-                          className={`guess word-${index + 1} col-xs-6`}
-                          setGuess={this.setGuess(index)}
-                          type="integer"
-                          maxLength="1"
-                          onChange={(e) => setGuess(parseInt(e.target.value))}
-                          value={clue.guess}
-                        />
-                        <p>{clue.word}</p>
+                      <div className="box">
+                        <idv className="inputBox">
+                          <p>{clue.word}</p>
+                          <input
+                            name={clue.word}
+                            className={`guess word-${index + 1} col-xs-6`}
+                            type="integer"
+                            maxLength="1"
+                            onChange={(e) => setGuess(parseInt(e.target.value) || '')}
+                            value={clue.guess}
+                          />
+                        </idv>
                       </div>
                     </div>
                   )
                 }
                 )}
               </div>
-              <DialPad
-                guessedNumbers={clueWords.map(({ guess }) => guess)}
-                setGuess={this.setGuess(indexOfNextWord)}
-              />
-              <button onClick={this.makeGuess}>Submit Guess</button>
-              <div className="locks row">
-                <img src="https://img.icons8.com/metro/52/000000/lock.png"></img>
-                <img src="https://img.icons8.com/metro/52/000000/lock.png"></img>
-                <img src="https://img.icons8.com/metro/52/000000/lock.png"></img>
+              <div className="row around-xs">
+                <div className="col-xs-6 col-md-2">
+                  <div className="box">
+                    <DialPad
+                      guessedNumbers={clueWords.map(({ guess }) => guess)}
+                      setGuess={this.setGuess(indexOfNextWord)}
+                      unsetGuess={this.unsetGuess}
+                    />
+                    <button onClick={this.makeGuess}>Submit Guess</button>
+                  </div>
+                </div>
               </div>
+              {/* <div className="locks row">
+                <img src="https://img.icons8.com/metro/52/000000/lock.png"></img>
+                <img src="https://img.icons8.com/metro/52/000000/lock.png"></img>
+                <img src="https://img.icons8.com/metro/52/000000/lock.png"></img>
+              </div> */}
             </section>
           </div>
+        </div>
+        <div className="col-xs-9 col-md-11">
           <Guesses guessWords={guessWords} />
         </div>
       </section>

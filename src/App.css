@@ -6,7 +6,7 @@ body {
   --yellow: #f1d302;
   --blue: #235789;
   font-family: 'Lato', sans-serif;
-  background-color: var(--yellow);
+  background-color: var(--white);
   margin: 0;
 }
 header {
@@ -28,8 +28,13 @@ header h1 {
   padding-top: 10px;
   height: 32px;
   width: 32px;
-  color: var(--yellow);
+  color: var(--white);
   margin-top: 10px;
+}
+
+.roundDetail:last-of-type {
+  background-color: var(--yellow);
+  color: var(--black);
 }
 
 .roundDetail:hover span {
@@ -40,13 +45,13 @@ header h1 {
   width: 50px;
   height: 50px;
   border-radius: 10px;
-  background-color: var(--white);
-  color: var(--black);
+  background-color: var(--black);
+  color: var(--yellow);
 }
 
 .dialPad button:hover, .dialPad button.pressed {
-  color: var(--white);
-  background-color: var(--black);
+  color: var(--black);
+  background-color: var(--yellow);
 }
 
 .roundDetail span {
@@ -54,10 +59,6 @@ header h1 {
   position: relative;
   right: -25px;
   display: none;
-}
-
-.guessRow {
-  height: 100px;
 }
 
 .guessRow input {
@@ -144,6 +145,10 @@ li.clue > p {
   margin: 5px 10px;
 }
 
+p {
+  font-size: 28px;
+}
+
 li.clue > input {
   width: 50px;
 }
@@ -152,6 +157,3 @@ p.red {
   color: red;
 }
 
-button {
-  margin-left: 40px;
-}
