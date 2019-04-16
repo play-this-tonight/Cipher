@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { checkAnswers, getCluesForRound } from '../Utility/parseWords';
 import Guesses from './Guesses';
 import RoundTracker from './RoundTracker';
 import DialPad from './DialPad';
+import RoundClues from './RoundClues';
+import Locks from './Locks';
 
 const RoundClue = ({ clue, valid }) => {
   return (
@@ -152,62 +154,48 @@ class MainGame extends Component {
     const roundArray = Array.apply(null, { length: currentRound }).map((item, i) => i + 1);
 
     return (
-      <section class="row">
-        <RoundTracker
-          roundArray={roundArray}
-          guessedWords={guessWords}
-        />
+      <Fragment>
+        <div className="col-xs-12 handleOverflow">
+          <Guesses guessWords={guessWords} />
+        </div>
+        <section class="row">
+          <RoundTracker
+            roundArray={roundArray}
+            guessedWords={guessWords}
+          />
 
-        <div className="col-xs-9 col-md-11">
-          <div className="row">
-            <section className="col-xs-12">
-              <div className="row between-xs guessRow">
-                {clueWords.map((clue, index) => {
-                  const setGuess = this.setGuess(index);
-                  return (
-                    <div className="col-xs-4">
-                      <div className="box">
-                        <idv className="inputBox">
-                          <p>{clue.word}</p>
-                          <input
-                            name={clue.word}
-                            className={`guess word-${index + 1} col-xs-6`}
-                            type="integer"
-                            maxLength="1"
-                            onChange={(e) => setGuess(parseInt(e.target.value) || '')}
-                            value={clue.guess}
-                          />
-                        </idv>
-                      </div>
-                    </div>
-                  )
-                }
-                )}
-              </div>
-              <div className="row around-xs">
-                <div className="col-xs-6 col-md-2">
-                  <div className="box">
+          <div className="col-xs-9 col-md-11">
+            <div className="row">
+              <section className="col-xs-12">
+                <RoundClues
+                  setGuess={this.setGuess}
+                  clueWords={clueWords}
+                />
+                <div className="row around-xs">
+                  <div className="col-xs-6 col-sm-2">
                     <DialPad
                       guessedNumbers={clueWords.map(({ guess }) => guess)}
                       setGuess={this.setGuess(indexOfNextWord)}
                       unsetGuess={this.unsetGuess}
                     />
-                    <button onClick={this.makeGuess}>Submit Guess</button>
+                    <button onClick={this.makeGuess}>Try Lock</button>
                   </div>
                 </div>
-              </div>
-              {/* <div className="locks row">
+                <div className="row">
+                  <Locks
+                    clueWords={clueWords}
+                  />
+                </div>
+                {/* <div className="locks row">
                 <img src="https://img.icons8.com/metro/52/000000/lock.png"></img>
                 <img src="https://img.icons8.com/metro/52/000000/lock.png"></img>
                 <img src="https://img.icons8.com/metro/52/000000/lock.png"></img>
               </div> */}
-            </section>
+              </section>
+            </div>
           </div>
-        </div>
-        <div className="col-xs-9 col-md-11">
-          <Guesses guessWords={guessWords} />
-        </div>
-      </section>
+        </section>
+      </Fragment>
     );
   }
 }

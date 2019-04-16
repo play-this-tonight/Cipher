@@ -103,24 +103,28 @@ header h1 {
   color: #61dafb;
 }
 
-.previousGuesses {
-  display: flex;
-  flex-wrap: wrap;
+.previousGuesses.row {
+  scroll-snap-type: mandatory;
+  flex-wrap: nowrap;
+  scroll-snap-type: x mandatory;
+  overflow-x: scroll;
+  scroll-snap-points-x: repeat(100vw);
 }
 
-.previousGuesses div {
-  border: 2px solid black;
+.guessWords {
+  scroll-snap-align: start;
+  border: 2px solid var(--black);
   border-radius: 15px;
   width: 250px;
-  padding: 20px;
-  margin: 20px;
+  height: 100px;
+  max-height: 100px;
 }
 
 li {
   list-style-type: none;
 }
 
-li.clue {
+.clue {
   display: flex;
   flex-direction: row;
   margin: 20px;
@@ -131,17 +135,17 @@ li.clue {
   justify-content:   space-between;
 }
 
-li.green {
+.green {
   color: green;
   font-weight: bold;
 }
 
-li.strikethrough {
+.strikethrough {
   color: grey;
   text-decoration: line-through;
 }
 
-li.clue > p {
+.clue > p {
   margin: 5px 10px;
 }
 
@@ -157,3 +161,88 @@ p.red {
   color: red;
 }
 
+.lock {
+  border-radius: 25%;
+  background-color: var(--black);
+  position: relative;
+  top: 50%;
+  left: 50%;
+  width: 120px;
+  height: 120px;
+  margin:-60px 0 0 -60px;
+}
+
+.lockBox {
+  height: 200px;
+}
+
+.lockHolder {
+  position: relative;
+  border-radius: 50%;
+  height: 100%;
+  border: 5px solid var(--black);
+}
+
+.lockLine {
+  position: relative;
+  left: 57px;
+  width: 6px;
+  height: 50%;
+  background-color: var(--white);
+}
+
+.spin-0 {
+  animation: spin-0 1.5s 1;
+  transform: rotate(360deg);
+}
+
+.spin-1 {
+  animation: spin-1 1.5s 1;
+  transform:rotate(416deg);
+}
+.spin-2 {
+  animation: spin-2 1.5s 1;
+  transform:rotate(467deg);
+}
+.spin-3 {
+  animation: spin-3 1.5s 1;
+  transform:rotate(518deg);
+}
+.spin-4 {
+  animation: spin-4 1.5s 1;
+  transform:rotate(569deg);
+}
+.spin-5 {
+  animation: spin-5 1.5s 1;
+  transform:rotate(569deg);
+}
+.spin-6 {
+  animation: spin-6 1.5s 1;
+  transform:rotate(671deg);
+}
+
+@keyframes spin-0 {
+  0% { -webkit-transform: rotate(0deg); transform:rotate(0deg);}
+  100% { -webkit-transform:rotate(416deg); transform:rotate(416deg);
+  }
+}
+@keyframes spin-1 {
+  0% { -webkit-transform: rotate(0deg); transform:rotate(0deg);}
+  100% { -webkit-transform:rotate(396deg); transform:rotate(396deg);
+  }
+}
+@keyframes spin-2 {
+  0% { -webkit-transform: rotate(0deg); transform:rotate(0deg);}
+  100% { -webkit-transform:rotate(467deg); transform:rotate(467deg); } }
+@keyframes spin-3 {
+  0% { -webkit-transform: rotate(0deg); transform:rotate(0deg);}
+  100% { -webkit-transform:rotate(518deg); transform:rotate(518deg); } }
+@keyframes spin-4 {
+  0% { -webkit-transform: rotate(0deg); transform:rotate(0deg);}
+  100% { -webkit-transform:rotate(569deg); transform:rotate(569deg); } }
+@keyframes spin-5 {
+  0% { -webkit-transform: rotate(0deg); transform:rotate(0deg);}
+  100% { -webkit-transform: rotate(569deg) ; transform:rotate(569deg); } }
+@keyframes spin-6 {
+  0% { -webkit-transform: rotate(0deg); transform:rotate(0deg);}
+  100% { -webkit-transform:rotate(671deg); transform:rotate(671deg); } }
