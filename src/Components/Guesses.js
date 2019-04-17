@@ -31,7 +31,6 @@ const GuessedWord = ({ word, correct }) => {
 }
 
 const Guesses = ({ guessWords }) => {
-  console.log(guessWords);
   return (
     <section >
       <h2>Previous Guesses</h2>

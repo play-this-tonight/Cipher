@@ -6,6 +6,21 @@ import DialPad from './DialPad';
 import RoundClues from './RoundClues';
 import Locks from './Locks';
 
+const incrementCounts = (
+  checkedAnswers,
+  {
+    correctGuesses,
+    incorrectGuesses
+  }
+) => {
+  const includesIncorrect = checkedAnswers.find(({ correct }) => correct === false)
+
+  if (includesIncorrect) {
+    return [correctGuesses, incorrectGuesses + 1];
+  }
+  return [correctGuesses + 1, incorrectGuesses];
+}
+
 const RoundClue = ({ clue, valid }) => {
   return (
     <li className="clue">
@@ -48,9 +63,7 @@ class MainGame extends Component {
   }
 
   moveIndex = (clueWords, currentIndex) => {
-    console.log(clueWords);
     const [nextWord, indexOfNextWord] = getNextActiveInput(clueWords);
-    console.log(nextWord);
     if (nextWord) {
       document.querySelector(`[name="${nextWord.word}"]`).focus();
     }
@@ -129,15 +142,35 @@ class MainGame extends Component {
       return;
     }
     const nextRound = currentRound + 1;
+    const checkedAnswers = checkAnswers(currentRound, clueWords);
+    this.setState({
+      clueWords: checkedAnswers,
+    });
 
+    setTimeout(this.startNextRound, 1000, nextRound, checkedAnswers, guessWords);
+  }
+
+  startNextRound = (nextRound, checkedAnswers, guessWords) => {
+    const {
+      gameState
+    } = this.state;
+
+    const [correctGuesses, incorrectGuesses] = incrementCounts(checkedAnswers, gameState);
+
+
+    const nextRoundWords = this.getWordsForRound(nextRound);
     this.setState({
       gameState: {
         ...this.gameState,
-        currentRound: nextRound
+        currentRound: nextRound,
+        correctGuesses,
+        incorrectGuesses,
       },
-      guessWords: guessWords.concat(checkAnswers(currentRound, clueWords)),
-      clueWords: this.getWordsForRound(nextRound)
+      guessWords: guessWords.concat(checkedAnswers),
+      clueWords: nextRoundWords,
+      indexOfNextWord: 0
     });
+    this.moveIndex(nextRoundWords, 0);
   }
 
 
@@ -147,7 +180,9 @@ class MainGame extends Component {
       guessWords,
       indexOfNextWord,
       gameState: {
-        currentRound
+        currentRound,
+        correctGuesses,
+        incorrectGuesses,
       }
     } = this.state;
 
@@ -162,6 +197,8 @@ class MainGame extends Component {
           <RoundTracker
             roundArray={roundArray}
             guessedWords={guessWords}
+            correctGuesses={correctGuesses}
+            incorrectGuesses={incorrectGuesses}
           />
 
           <div className="col-xs-9 col-md-11">
