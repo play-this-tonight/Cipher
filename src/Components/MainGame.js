@@ -5,6 +5,11 @@ import RoundTracker from './RoundTracker';
 import DialPad from './DialPad';
 import RoundClues from './RoundClues';
 import Locks from './Locks';
+import ApolloClient from "apollo-boost";
+
+const client = new ApolloClient({
+  uri: "https://48p1r2roz4.sse.codesandbox.io"
+});
 
 const incrementCounts = (
   checkedAnswers,
