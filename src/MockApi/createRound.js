@@ -20,7 +20,7 @@ const generateClueSequence = () => {
 const createWordCluesForRound = () => {
   return generateClueSequence().map((integer) => ({
     word: wordsArray.pop(),
-    guess: null,
+    guess: '',
     answer: integer,
     isCorrect: null,
   }));

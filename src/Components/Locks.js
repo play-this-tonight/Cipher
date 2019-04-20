@@ -11,10 +11,10 @@ const Lock = ({ spinCounter = '', lockNumber, correctAnswer }) => (
 const getCorrectAnswer = (currentRoundWords, index) => {
   if (currentRoundWords.length == 0) return '';
 
-  const { correct } = currentRoundWords[index];
-  if (correct === null) return '';
+  const { isCorrect } = currentRoundWords[index];
+  if (isCorrect === null) return '';
 
-  return correct ? 'lock-correct' : 'lock-incorrect';
+  return isCorrect ? 'lock-correct' : 'lock-incorrect';
 }
 
 const getSpinString = (currentRoundWords, index) => {
@@ -32,6 +32,7 @@ const Locks = ({ currentRoundWords }) => {
       {
         [1, 2, 3].map((number, index) => (
           <Lock
+            key={index}
             spinCounter={getSpinString(currentRoundWords, index)}
             correctAnswer={getCorrectAnswer(currentRoundWords, index)}
             lockNumber={number}

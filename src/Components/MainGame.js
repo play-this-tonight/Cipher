@@ -21,7 +21,6 @@ const MainGame = ({
   const [indexOfNextWord, setIndexOfNextWord] = useState(0);
   const somethingSomething = useEffect(
     () => {
-      console.log('does this ever fire?')
       setIndexOfNextWord(
         () => getNextActiveInput(currentRoundWords)
       )

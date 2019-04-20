@@ -25,11 +25,15 @@ const DialPad = ({ guessedNumbers, setGuess, unsetGuess, spinCounter = '' }) => 
     <div className="dialPad">
       <div className="row">
         {
-          dialArray.map((dialRow) => (
-            <div className="col-xs-12 row">
+          dialArray.map((dialRow, index) => (
+            <div
+              className="col-xs-12 row"
+              key={index}
+            >
               {
                 dialRow.map(number => (
                   <DialButton
+                    key={number}
                     pressed={guessedNumbers.includes(number)}
                     setGuess={setGuess}
                     number={number}

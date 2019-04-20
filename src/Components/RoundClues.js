@@ -24,12 +24,14 @@ const RoundClue = ({ clue, index, indexedSetGuess, valid }) => (
 )
 
 
+
 const RoundClues = ({ setGuess, currentRoundWords, }) => {
   return (
     <div className="row between-xs guessRow">
       {currentRoundWords.map((clue, index) => {
         return (
           <RoundClue
+            key={`clue-${index}`}
             clue={clue}
             index={index}
             indexedSetGuess={setGuess(index)}

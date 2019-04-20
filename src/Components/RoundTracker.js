@@ -27,7 +27,7 @@ const getGuessedWords = (guessedWords, round) => guessedWords.filter(word => wor
 
 const RoundTracker = ({ roundArray, guessedWords, correctGuesses, incorrectGuesses }) => {
   return (
-    <sidebar className="col-xs-3 col-md-1 center-xs">
+    <aside className="col-xs-3 col-md-1 center-xs">
       <h4>Rounds</h4>
       <ul>
         <li>Correct: {correctGuesses}</li>
@@ -35,10 +35,10 @@ const RoundTracker = ({ roundArray, guessedWords, correctGuesses, incorrectGuess
       </ul>
       <ul className="roundCountContainer">
         {
-          roundArray.map((round) => <RoundDetails round={round} guesses={getGuessedWords(guessedWords, round)} />)
+          roundArray.map((round) => <RoundDetails key={round} round={round} guesses={getGuessedWords(guessedWords, round)} />)
         }
       </ul>
-    </sidebar>
+    </aside>
   );
 }
 

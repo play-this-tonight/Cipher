@@ -8,6 +8,7 @@ const GuessDisplay = ({ guessNumber, guesses }) => {
         {
           guesses.map(({ word, correct }) => (
             <GuessedWord
+              key={word}
               word={word}
               correct={correct}
             />
@@ -38,6 +39,7 @@ const Guesses = ({ guessedWords }) => {
         {
           [1, 2, 3, 4, 5, 6].map((number) => (
             <GuessDisplay
+              key={number}
               guessNumber={number}
               guesses={guessedWords.filter((word) => word.guess === number)}
             />

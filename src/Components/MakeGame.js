@@ -67,7 +67,7 @@ const makeGame = (Game) => {
 
         return {
           ...word,
-          guess: null
+          guess: ''
         }
       });
 
