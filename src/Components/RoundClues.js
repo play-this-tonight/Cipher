@@ -1,6 +1,6 @@
 import React from 'react';
 
-const RoundClue = ({ clue, index, indexedSetGuess, invalid = '' }) => (
+const RoundClue = ({ clue, index, indexedSetGuess, invalid = '', setIndexOfNextWord }) => (
   <div className="col-xs-4">
     <div className="box">
       <div className="inputBox">
@@ -12,6 +12,7 @@ const RoundClue = ({ clue, index, indexedSetGuess, invalid = '' }) => (
           maxLength="1"
           onChange={(e) => indexedSetGuess(parseInt(e.target.value) || '')}
           value={clue.guess}
+          onClick={() => setIndexOfNextWord(index)}
         />
         {
           invalid !== ''
@@ -25,7 +26,7 @@ const RoundClue = ({ clue, index, indexedSetGuess, invalid = '' }) => (
 
 
 
-const RoundClues = ({ setGuess, currentRoundWords, }) => {
+const RoundClues = ({ setGuess, currentRoundWords, setIndexOfNextWord }) => {
   return (
     <div className="row between-xs guessRow">
       {currentRoundWords.map((clue, index) => {
@@ -36,6 +37,7 @@ const RoundClues = ({ setGuess, currentRoundWords, }) => {
             index={index}
             indexedSetGuess={setGuess(index)}
             invalid={clue.invalid}
+            setIndexOfNextWord={setIndexOfNextWord}
           />
         )
       }

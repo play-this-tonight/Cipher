@@ -13,7 +13,7 @@ const RoundDetails = ({ round, guesses }) => {
           ? <span>
             [{guessesToSort
               .sort((guessA, guessB) => guessA.locationInSequence - guessB.locationInSequence)
-              .map(guess => guess.guess).join(",")
+              .map(({ guess }) => guess).join(",")
             }]
           </span>
           : null

@@ -49,6 +49,7 @@ const MainGame = ({
               <RoundClues
                 setGuess={setGuessWord}
                 currentRoundWords={currentRoundWords}
+                setIndexOfNextWord={setIndexOfNextWord}
               />
               <div className="row around-xs">
                 <div className="col-xs-6 col-sm-2">

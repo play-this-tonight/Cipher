@@ -1,14 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import ApolloClient from "apollo-boost";
-import {
-  startNewGamePromise,
-  makeGuessPromise,
-  getGameStatePromise
-} from '../MockApi/gameState';
 import { checkGuesses } from '../Utility/validateGuessWords';
-// const client = new ApolloClient({
-//   uri: "https://48p1r2roz4.sse.codesandbox.io"
-// });
+import { getGameState, startGame, checkAnswers } from '../Graph';
+
 
 // increment Guess Counts
 
@@ -17,7 +10,13 @@ import { checkGuesses } from '../Utility/validateGuessWords';
 // Sets a Word Guess (calls sets pointer)
 // Validates input details
 // Makes a Round Guess
-
+const processGameState = (gameState) => ({
+  ...gameState,
+  currentRoundWords: gameState.currentRoundWords.map((word) => ({
+    ...word,
+    guess: ''
+  }))
+})
 
 const makeGame = (Game) => {
   return class extends Component {
@@ -30,12 +29,12 @@ const makeGame = (Game) => {
     }
 
     componentDidMount() {
-      startNewGamePromise()
+      startGame()
         .then((gameState) => {
           this.setState(state => ({
             ...state,
             hasLoaded: true,
-            gameState: gameState,
+            gameState: processGameState(gameState),
           }))
         })
     }
@@ -81,12 +80,14 @@ const makeGame = (Game) => {
     }
 
     startNextRound = () => {
-      getGameStatePromise().then((newGameState) => {
+      console.log("Round is ", this.state.gameState.currentRound)
+      getGameState().then((newGameState) => {
+        console.log(newGameState);
         this.setState(state => ({
           ...state,
           gameState: {
             ...state.gameState,
-            ...newGameState
+            ...processGameState(newGameState)
           }
         }))
       })
@@ -112,7 +113,12 @@ const makeGame = (Game) => {
         return;
       }
 
-      makeGuessPromise(currentRoundWords).then((guessedWords) => {
+      const wordsForChecking = currentRoundWords.map(({ guess, word }) => ({
+        guess,
+        word,
+      }))
+
+      checkAnswers(wordsForChecking).then((guessedWords) => {
         this.setState(state => ({
           ...state,
           gameState: {

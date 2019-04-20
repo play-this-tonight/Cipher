@@ -6,11 +6,11 @@ const GuessDisplay = ({ guessNumber, guesses }) => {
       <div className="box">
         <h4>{guessNumber}</h4>
         {
-          guesses.map(({ word, correct }) => (
+          guesses.map(({ word, isCorrect }) => (
             <GuessedWord
               key={word}
               word={word}
-              correct={correct}
+              isCorrect={isCorrect}
             />
           ))
         }
@@ -19,11 +19,9 @@ const GuessDisplay = ({ guessNumber, guesses }) => {
   )
 }
 
-const GuessedWord = ({ word, correct }) => {
+const GuessedWord = ({ word, isCorrect }) => {
   const cX = () => {
-    if (correct) {
-      return "green";
-    } else {
+    if (!isCorrect) {
       return "strikethrough";
     }
   }
@@ -41,7 +39,7 @@ const Guesses = ({ guessedWords }) => {
             <GuessDisplay
               key={number}
               guessNumber={number}
-              guesses={guessedWords.filter((word) => word.guess === number)}
+              guesses={guessedWords.filter(({ answer }) => answer === number)}
             />
           ))
         }
