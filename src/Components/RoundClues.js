@@ -1,6 +1,6 @@
 import React from 'react';
 
-const RoundClue = ({ clue, index, indexedSetGuess, valid }) => (
+const RoundClue = ({ clue, index, indexedSetGuess, invalid = '' }) => (
   <div className="col-xs-4">
     <div className="box">
       <div className="inputBox">
@@ -10,12 +10,12 @@ const RoundClue = ({ clue, index, indexedSetGuess, valid }) => (
           className={`guess word-${index + 1} col-xs-6`}
           type="integer"
           maxLength="1"
-          onChange={(e) => indexedSetGuess(parseInt(e.target.value) || null)}
+          onChange={(e) => indexedSetGuess(parseInt(e.target.value) || '')}
           value={clue.guess}
         />
         {
-          valid === false
-            ? <p className="validation-error">Numbers are not repeated in sequence.</p>
+          invalid !== ''
+            ? <p className="validation-error">{invalid}</p>
             : null
         }
       </div>
@@ -35,7 +35,7 @@ const RoundClues = ({ setGuess, currentRoundWords, }) => {
             clue={clue}
             index={index}
             indexedSetGuess={setGuess(index)}
-            valid={clue.valid}
+            invalid={clue.invalid}
           />
         )
       }

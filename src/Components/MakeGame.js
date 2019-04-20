@@ -5,7 +5,7 @@ import {
   makeGuessPromise,
   getGameStatePromise
 } from '../MockApi/gameState';
-
+import { checkGuesses } from '../Utility/validateGuessWords';
 // const client = new ApolloClient({
 //   uri: "https://48p1r2roz4.sse.codesandbox.io"
 // });
@@ -99,28 +99,18 @@ const makeGame = (Game) => {
         currentRound
       } = this.state.gameState;
 
-      const checkedClueWords = currentRoundWords
-        .map((clue) => clue.guess)
-        .map((clueToMatch, index, clues) => {
-          return clues.filter((clue) => clue === clueToMatch).length === 1
-        })
+      const checkedClueWords = currentRoundWords.map(checkGuesses);
 
-      if (checkedClueWords.indexOf(false) !== -1) {
-        const validatedRoundClues = checkedClueWords.map((item, index) => ({
-          ...currentRoundWords[index],
-          valid: item
-        }));
+      if (checkedClueWords.find(({ invalid }) => invalid !== undefined)) {
         this.setState(state => ({
           ...state,
           gameState: {
             ...state.gameState,
-            currentRoundWords: validatedRoundClues,
+            currentRoundWords: checkedClueWords,
           }
         }));
         return;
       }
-
-      console.log(currentRoundWords);
 
       makeGuessPromise(currentRoundWords).then((guessedWords) => {
         this.setState(state => ({
@@ -130,15 +120,14 @@ const makeGame = (Game) => {
             currentRoundWords: guessedWords,
           }
         }));
+        setTimeout(this.startNextRound, 1000);
       })
 
-      setTimeout(this.startNextRound, 1000);
     }
 
     render() {
       const { hasLoaded } = this.state;
-      console.log(hasLoaded);
-      console.log(this.state)
+
       return (
         <Fragment>
           {

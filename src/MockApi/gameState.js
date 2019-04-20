@@ -49,7 +49,7 @@ const setGuessedWords = (currentRoundWords) => {
 }
 
 const createNewRound = () => {
-  const { currentRound } = gameState.game;
+  const { currentRound } = gameState;
   gameState = {
     ...gameState,
     currentRound: currentRound + 1,
@@ -72,15 +72,15 @@ const makeGuessPromise = (guessedWords) => {
       throw new Error('this is incorrect');
     }
 
-    const guessedWords = guessedWords.map((guessWord) => ({
+    const checkedGuessWords = guessedWords.map((guessWord) => ({
       ...guessWord,
       isCorrect: compareGuessToAnswer(guessWord)
     }));
 
-    setGuessedWords(guessedWords);
+    setGuessedWords(checkedGuessWords);
     createNewRound();
 
-    resolve(guessedWords);
+    resolve(checkedGuessWords);
   })
 };
 
