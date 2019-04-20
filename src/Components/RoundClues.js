@@ -6,11 +6,11 @@ const RoundClue = ({ clue, index, indexedSetGuess, valid }) => (
       <div className="inputBox">
         <p>{clue.word}</p>
         <input
-          name={clue.word}
+          name={index}
           className={`guess word-${index + 1} col-xs-6`}
           type="integer"
           maxLength="1"
-          onChange={(e) => indexedSetGuess(parseInt(e.target.value) || '')}
+          onChange={(e) => indexedSetGuess(parseInt(e.target.value) || null)}
           value={clue.guess}
         />
         {
@@ -24,11 +24,10 @@ const RoundClue = ({ clue, index, indexedSetGuess, valid }) => (
 )
 
 
-const RoundClues = ({ setGuess, clueWords, }) => {
-
+const RoundClues = ({ setGuess, currentRoundWords, }) => {
   return (
     <div className="row between-xs guessRow">
-      {clueWords.map((clue, index) => {
+      {currentRoundWords.map((clue, index) => {
         return (
           <RoundClue
             clue={clue}

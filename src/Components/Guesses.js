@@ -2,7 +2,7 @@ import React from 'react';
 
 const GuessDisplay = ({ guessNumber, guesses }) => {
   return (
-    <div className="col-md-2 col-xs-12 guessWords">
+    <div className="col-md-2 col-xs-12 guessedWords">
       <div className="box">
         <h4>{guessNumber}</h4>
         {
@@ -30,7 +30,7 @@ const GuessedWord = ({ word, correct }) => {
   return <span className={cX()}>{word}</span>
 }
 
-const Guesses = ({ guessWords }) => {
+const Guesses = ({ guessedWords }) => {
   return (
     <section >
       <h2>Previous Guesses</h2>
@@ -39,7 +39,7 @@ const Guesses = ({ guessWords }) => {
           [1, 2, 3, 4, 5, 6].map((number) => (
             <GuessDisplay
               guessNumber={number}
-              guesses={guessWords.filter((word) => word.guess === number)}
+              guesses={guessedWords.filter((word) => word.guess === number)}
             />
           ))
         }

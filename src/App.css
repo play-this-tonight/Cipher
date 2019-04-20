@@ -111,7 +111,7 @@ header h1 {
   scroll-snap-points-x: repeat(100vw);
 }
 
-.guessWords {
+.guessedWords {
   scroll-snap-align: start;
   border: 2px solid var(--black);
   border-radius: 15px;

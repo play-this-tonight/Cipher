@@ -10,8 +10,8 @@ class App extends Component {
   render() {
     return (
       <Fragment>
-        <header class="row">
-          <div class="col-xs-12">
+        <header className="row">
+          <div className="col-xs-12">
             <h1>Code Unravel</h1>
           </div>
         </header>

@@ -27,7 +27,7 @@ const getGuessedWords = (guessedWords, round) => guessedWords.filter(word => wor
 
 const RoundTracker = ({ roundArray, guessedWords, correctGuesses, incorrectGuesses }) => {
   return (
-    <sidebar class="col-xs-3 col-md-1 center-xs">
+    <sidebar className="col-xs-3 col-md-1 center-xs">
       <h4>Rounds</h4>
       <ul>
         <li>Correct: {correctGuesses}</li>
