@@ -16,10 +16,9 @@ const DialButton = ({ number, pressed, setGuess, unsetGuess }) => (
 
 const DialPad = ({ guessedNumbers, setGuess, unsetGuess, spinCounter = '' }) => {
   const dialArray = [
-    [1, 4],
-    [2, 5],
-    [3, 6],
-  ]
+    [1, 2, 3],
+    [4, 5],
+  ];
 
   return (
     <div className="dialPad">

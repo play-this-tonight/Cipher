@@ -1,15 +1,15 @@
 import React, { Component, Fragment } from 'react';
-import { checkGuesses } from '../Utility/validateGuessWords';
-import { getGameState, startGame, checkAnswers } from '../Graph';
+import { checkGuesses } from '../../Utility/validateGuessWords';
+import { getGameState, startGame, checkAnswers } from '../../Graph';
+import { Redirect } from 'react-router-dom';
 
+const checkHasFinished = ({ correctGuesses = 0 }) => {
+  console.log("Correct Guesses here is ", correctGuesses);
+  return correctGuesses >= 3;
+}
 
-// increment Guess Counts
+// correctGuesses >= 3;
 
-// Sets point for the input
-// creates New Round
-// Sets a Word Guess (calls sets pointer)
-// Validates input details
-// Makes a Round Guess
 const processGameState = (gameState) => ({
   ...gameState,
   currentRoundWords: gameState.currentRoundWords.map((word) => ({
@@ -25,14 +25,16 @@ const makeGame = (Game) => {
 
       this.state = {
         hasLoaded: false,
+        hasFinished: false,
       }
     }
 
     componentDidMount() {
-      startGame()
+      getGameState()
         .then((gameState) => {
           this.setState(state => ({
             ...state,
+            hasFinished: checkHasFinished(gameState),
             hasLoaded: true,
             gameState: processGameState(gameState),
           }))
@@ -85,6 +87,7 @@ const makeGame = (Game) => {
         console.log(newGameState);
         this.setState(state => ({
           ...state,
+          hasFinished: checkHasFinished(newGameState),
           gameState: {
             ...state.gameState,
             ...processGameState(newGameState)
@@ -132,7 +135,10 @@ const makeGame = (Game) => {
     }
 
     render() {
-      const { hasLoaded } = this.state;
+      const { hasLoaded, hasFinished } = this.state;
+
+      if (hasFinished) return <Redirect to="/end-game" />
+
 
       return (
         <Fragment>

@@ -18,6 +18,22 @@ header h1 {
   margin-left: 20px;
 }
 
+main {
+  margin: 1%;
+}
+
+.finalScreen {
+  text-align: center;
+}
+
+.highlight {
+  background-color: var(--yellow);
+}
+
+.finalScreen ul {
+  padding: 0;
+}
+
 .App {
   text-align: center;
 }
@@ -25,11 +41,10 @@ header h1 {
 .roundDetail {
   text-align: center;
   background-color: var(--black);
-  padding-top: 10px;
-  height: 32px;
-  width: 32px;
+  padding: 10px;
   color: var(--white);
   margin-top: 10px;
+  display: relative;
 }
 
 .roundDetail:last-of-type {
@@ -37,8 +52,19 @@ header h1 {
   color: var(--black);
 }
 
+.roundDetail span {
+  color: var(--black);
+  position: relative;
+  right: -50px;
+  top: -20px;
+  display: none;
+  margin: 0;
+  width: 300px;
+  text-align: left;
+}
+
 .roundDetail:hover span {
-  display: inline;
+  display: block;
 }
 
 .dialPad button {
@@ -54,15 +80,15 @@ header h1 {
   background-color: var(--yellow);
 }
 
-.roundDetail span {
-  color: var(--black);
-  position: relative;
-  right: -25px;
-  display: none;
+input.guess {
+  margin: 28px auto;
 }
 
 .guessRow input {
-  font-size: 20px;
+  font-size: 30px;
+  height: 40px;
+  text-align: center;
+  width: 100%;
   /* background-color: var(--black);
   color: var(--white); */
 }
@@ -73,10 +99,24 @@ header h1 {
   align-items: center;
 }
 
+
+.guessedWordList {
+  /* max-height: 300px;
+  overflow: scroll; */
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.guessedWordList li {
+  margin-left: 15px;
+}
+
 .roundCountContainer {
   padding: 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   width: 100%;
   justify-content: space-evenly;
@@ -106,22 +146,50 @@ header h1 {
 .previousGuesses.row {
   scroll-snap-type: mandatory;
   flex-wrap: nowrap;
-  scroll-snap-type: x mandatory;
   overflow-x: scroll;
-  scroll-snap-points-x: repeat(100vw);
+  scroll-snap-points-x: repeat(100%);
 }
 
 .guessedWords {
   scroll-snap-align: start;
   border: 2px solid var(--black);
-  border-radius: 15px;
-  width: 250px;
-  height: 100px;
-  max-height: 100px;
+  border-radius: 10px;
+  max-height: 300px;
+  overflow: scroll;
+  margin-top: 10px;
 }
 
 li {
   list-style-type: none;
+}
+
+li.previousGuess.correct {
+  color: var(--blue);
+  font-weight: bold;
+}
+
+li.previousGuess.incorrect{
+  color: var(--red);
+}
+
+li.previousGuess.hintNotGiven {
+  color: grey;
+  text-decoration: line-through;
+}
+
+li.previousGuess.faded {
+  opacity: 0.35;
+}
+
+li.previousGuess.hovered {
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+li.previousGuess span {
+  font-size: 12px;
+  font-weight: bold;
 }
 
 .clue {
@@ -141,7 +209,7 @@ li {
 }
 
 .strikethrough {
-  /* color: grey; */
+  color: grey;
   text-decoration: line-through;
 }
 
@@ -149,8 +217,9 @@ li {
   margin: 5px 10px;
 }
 
-p {
+p.roundClue {
   font-size: 28px;
+  text-align: center;
 }
 
 li.clue > input {
@@ -167,18 +236,32 @@ p.validation-error {
   background-color: var(--black);
   position: relative;
   top: 80px;
-  left: 50%;
-  width: 120px;
-  height: 120px;
+  left: 100%;
+  width: 60px;
+  height: 60px;
   margin:-60px 0 0 -60px;
 }
 
+.clueBackground {
+  border-radius: 15px;
+  background-color: var(--yellow);
+  margin-top: 15px;
+}
+
 .lock-correct {
-  background-color: var(--blue);
+  background-color: var(--blue) !important;
+  font-weight: bold;
+}
+
+.emphasize {
+  font-style: italic;
+  color: var(--white);
+  background-color: var(--black);
 }
 
 .lock-incorrect {
-  background-color: var(--red);
+  background-color: var(--red) !important;
+  font-weight: bold;
 }
 
 .lockHolder {
@@ -190,10 +273,10 @@ p.validation-error {
 
 .lockLine {
   position: relative;
-  left: 57px;
+  left: 27px;
   width: 6px;
   height: 50%;
-  background-color: var(--white);
+  background-color: var(--yellow);
 }
 
 .spin-0 {
@@ -203,27 +286,23 @@ p.validation-error {
 
 .spin-1 {
   animation: spin-1 1.5s 1;
-  transform:rotate(416deg);
+  transform:rotate(420deg);
 }
 .spin-2 {
   animation: spin-2 1.5s 1;
-  transform:rotate(467deg);
+  transform:rotate(480deg);
 }
 .spin-3 {
   animation: spin-3 1.5s 1;
-  transform:rotate(518deg);
+  transform:rotate(540deg);
 }
 .spin-4 {
   animation: spin-4 1.5s 1;
-  transform:rotate(569deg);
+  transform:rotate(600deg);
 }
 .spin-5 {
   animation: spin-5 1.5s 1;
-  transform:rotate(569deg);
-}
-.spin-6 {
-  animation: spin-6 1.5s 1;
-  transform:rotate(671deg);
+  transform:rotate(660deg);
 }
 
 @keyframes spin-0 {
@@ -233,21 +312,16 @@ p.validation-error {
 }
 @keyframes spin-1 {
   0% { -webkit-transform: rotate(0deg); transform:rotate(0deg);}
-  100% { -webkit-transform:rotate(416deg); transform:rotate(416deg);
-  }
-}
+  100% { -webkit-transform:rotate(420deg); transform:rotate(420deg); } }
 @keyframes spin-2 {
   0% { -webkit-transform: rotate(0deg); transform:rotate(0deg);}
-  100% { -webkit-transform:rotate(467deg); transform:rotate(467deg); } }
+  100% { -webkit-transform:rotate(480deg); transform:rotate(480deg); } }
 @keyframes spin-3 {
   0% { -webkit-transform: rotate(0deg); transform:rotate(0deg);}
-  100% { -webkit-transform:rotate(518deg); transform:rotate(518deg); } }
+  100% { -webkit-transform:rotate(540deg); transform:rotate(540deg); } }
 @keyframes spin-4 {
   0% { -webkit-transform: rotate(0deg); transform:rotate(0deg);}
-  100% { -webkit-transform:rotate(569deg); transform:rotate(569deg); } }
+  100% { -webkit-transform:rotate(600deg); transform:rotate(600deg); } }
 @keyframes spin-5 {
   0% { -webkit-transform: rotate(0deg); transform:rotate(0deg);}
-  100% { -webkit-transform: rotate(569deg) ; transform:rotate(569deg); } }
-@keyframes spin-6 {
-  0% { -webkit-transform: rotate(0deg); transform:rotate(0deg);}
-  100% { -webkit-transform:rotate(671deg); transform:rotate(671deg); } }
+  100% { -webkit-transform: rotate(660deg) ; transform:rotate(660deg); } }
