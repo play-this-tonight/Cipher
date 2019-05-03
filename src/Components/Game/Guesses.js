@@ -92,9 +92,6 @@ const Guesses = ({ guessedWords, hoveredRound, currentRoundWords }) => {
   return (
     <Fragment >
       <div className="col-xs-12">
-        <div className="row">
-          <h2>Previous Guesses</h2>
-        </div>
       </div>
       <div className="col-xs-12">
         <div className="row around-sm previousGuesses">

@@ -13,7 +13,7 @@ class App extends Component {
       <Fragment>
         <header className="row">
           <div className="col-xs-12">
-            <h1>Code Unravel</h1>
+            <h1>Cipher</h1>
           </div>
         </header>
         <Router>

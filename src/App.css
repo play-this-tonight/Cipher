@@ -145,6 +145,7 @@ input.guess {
 
 .previousGuesses.row {
   scroll-snap-type: mandatory;
+  scrolls-snap-align: start;
   flex-wrap: nowrap;
   overflow-x: scroll;
   scroll-snap-points-x: repeat(100%);
