@@ -3,24 +3,30 @@ import gql from 'graphql-tag';
 import { Query, Mutation } from 'react-apollo';
 
 const GET_GAME_STATE = gql`
-  {
-    getGameState {
-      correctGuesses
-      incorrectGuesses
+  query($gameKey: ID!){
+    getGameState(key: $gameKey) {
+      correctGuessCount
       currentRound
-      currentRoundWords {
-        word
+      startedAt
+      endedAt
+      incorrectGuessCount
+      otherRoundClues {
+        childConcept
+        sequenceLocation
+        gameRound
+        userGuessedParentConceptId
+        parentConceptId
         isCorrect
       }
-      gameReady
-      guessedWords {
-        word
+      currentRoundClues {
+        childConcept
+        sequenceLocation
+        gameRound
+        userGuessedParentConceptId
+        parentConceptId
         isCorrect
-        guess
-        locationInSequence
-        roundNumber
-        answer
       }
+      parentConcepts
     }
   }
 `;

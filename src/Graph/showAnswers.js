@@ -5,21 +5,33 @@ import { Query } from 'react-apollo';
 const SHOW_ANSWERS = gql`
   {
     showAnswers {
-      correctGuesses
-      incorrectGuesses
-      currentRound
-      answers {
-        word
-        parentOf
+      game {
+        correctGuessCount
+        currentRound
+        startedAt
+        endedAt
+        incorrectGuessCount
+        otherRoundClues {
+          childConcept
+          sequenceLocation
+          gameRound
+          userGuessedParentConceptId
+          parentConceptId
+          isCorrect
+        }
+        currentRoundClues {
+          childConcept
+          sequenceLocation
+          gameRound
+          userGuessedParentConceptId
+          parentConceptId
+          isCorrect
+        }
+        parentConcepts
       }
-      guessedWords {
-        word
-        isCorrect
-        guess
-        locationInSequence
-        roundNumber
-        answer
-        showAnswer
+      gameAnswers {
+        parentConcept
+        parentConceptId
       }
     }
   }

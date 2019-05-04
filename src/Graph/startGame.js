@@ -5,23 +5,7 @@ import { Mutation } from 'react-apollo';
 // Reminder to remove locationInSequence hre...
 const START_GAME = gql`
   mutation {
-    startGame {
-      correctGuesses
-      incorrectGuesses
-      currentRound
-      currentRoundWords {
-        word
-        isCorrect
-      }
-      gameReady
-      guessedWords {
-        word
-        isCorrect
-        guess
-        locationInSequence
-        roundNumber
-        answer
-      }
+    startGame
     }
   }
 `;

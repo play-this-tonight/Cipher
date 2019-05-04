@@ -7,14 +7,23 @@ import { Mutation } from 'react-apollo';
 // `;
 
 const CHECK_ANSWERS = gql`
-  mutation CheckAnswers($guesses: [Guess]) {
+  mutation CheckAnswers(
+    $guesses: [Guess]
+    $gameKey: ID!
+  ) {
     checkAnswers(
+      gameKey: $gameKey
       guesses: $guesses
     ) {
-      word
-      isCorrect
-      guess
-      answer
+      hasGameEnded
+      roundClues {
+        childConcept
+        sequenceLocation
+        gameRound
+        userGuessedParentConceptId
+        parentConceptId
+        isCorrect
+      }
     }
   }
 `;
