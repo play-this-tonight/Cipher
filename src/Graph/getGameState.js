@@ -31,9 +31,12 @@ const GET_GAME_STATE = gql`
   }
 `;
 
-const getGameState = () => {
+const getGameState = (gameKey) => {
   return client.query({
     query: GET_GAME_STATE,
+    variables: {
+      gameKey,
+    },
     fetchPolicy: 'network-only'
   }).then(result => stripTypeName(result.data.getGameState))
     .catch(error => console.error(error))

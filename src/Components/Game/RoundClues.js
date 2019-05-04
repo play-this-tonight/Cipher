@@ -6,7 +6,7 @@ const Lock = ({ spinCounter = '', lockNumber, correctAnswer }) => (
   </div>
 )
 
-const getCorrectAnswer = (isCorrect) => {
+const getCorrectAnswer = ({ isCorrect }) => {
   if (isCorrect === null) return '';
 
   return isCorrect ? 'lock-correct' : 'lock-incorrect';
@@ -40,16 +40,16 @@ const RoundWords = ({ clueWords }) => {
 
 const RoundClue = ({ clue, index, indexedSetGuess, invalid = '', setIndexOfNextWord, isCorrect }) => (
   <div className="inputBox col-xs-12">
-    <div className={`row between-xs clueBackground ${getCorrectAnswer(isCorrect)}`}>
+    <div className={`row between-xs clueBackground ${getCorrectAnswer(clue)}`}>
       <div className="col-xs-2">
         <Lock
           spinCounter={getSpinString(clue)}
           lockNumber={index + 1}
-          correctAnswer={getCorrectAnswer(isCorrect)}
+          correctAnswer={getCorrectAnswer(clue)}
         />
       </div>
       <div className="col-xs-6">
-        <p className="roundClue">{clue.word}</p>
+        <p className="roundClue">{clue.childConcept}</p>
       </div>
       <div className="col-xs-2">
         <input
@@ -73,13 +73,13 @@ const RoundClue = ({ clue, index, indexedSetGuess, invalid = '', setIndexOfNextW
 
 
 
-const RoundClues = ({ setGuess, currentRoundWords, setIndexOfNextWord }) => {
+const RoundClues = ({ setGuess, currentRoundClues, setIndexOfNextWord }) => {
   return (
     <Fragment>
-      {/* <RoundWords clueWords={currentRoundWords} /> */}
+      {/* <RoundWords clueWords={currentRoundClues} /> */}
       <div className="col-xs-8">
         <div className="row">
-          {currentRoundWords.map((clue, index) => {
+          {currentRoundClues.map((clue, index) => {
             return (
               <RoundClue
                 key={`clue-${index}`}

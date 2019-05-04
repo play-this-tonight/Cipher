@@ -1,6 +1,6 @@
-const getNextActiveInput = (currentRoundWords) => {
-  const nextActiveWord = currentRoundWords.find(({ guess }) => guess === '');
-  const indexOfNextWord = currentRoundWords.indexOf(nextActiveWord);
+const getNextActiveInput = (currentRoundClues) => {
+  const nextActiveWord = currentRoundClues.find(({ guess }) => guess === '');
+  const indexOfNextWord = currentRoundClues.indexOf(nextActiveWord);
 
   if (indexOfNextWord != -1) {
     document.querySelector(`[name="${indexOfNextWord}"]`).focus();

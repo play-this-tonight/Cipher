@@ -15,7 +15,7 @@ const SHOW_ANSWERS = gql`
           childConcept
           sequenceLocation
           gameRound
-          userGuessedParentConceptId
+          guess
           parentConceptId
           isCorrect
         }
@@ -23,7 +23,7 @@ const SHOW_ANSWERS = gql`
           childConcept
           sequenceLocation
           gameRound
-          userGuessedParentConceptId
+          guess
           parentConceptId
           isCorrect
         }

@@ -6,7 +6,7 @@ import { hoverToDiscover } from '../../Utility/hoverToDiscover';
 //   guesses.length > 0
 //     ? <span>
 //       [{guessesToSort
-//         .sort((guessA, guessB) => guessA.locationInSequence - guessB.locationInSequence)
+//         .sort((guessA, guessB) => guessA.sequenceLocation - guessB.sequenceLocation)
 //         .map(({ guess, word }) => (word + ` (${guess})`)).join(",")
 //       }]
 //           </span>
@@ -14,7 +14,7 @@ import { hoverToDiscover } from '../../Utility/hoverToDiscover';
 // }
 
 const getSequenceString = (currentGuesses) => {
-  currentGuesses.sort((guessA, guessB) => guessA.locationInSequence - guessB.locationInSequence)
+  currentGuesses.sort((guessA, guessB) => guessA.sequenceLocation - guessB.sequenceLocation)
 
   return `[${currentGuesses.join(", ")}]`;
 }
@@ -33,22 +33,23 @@ const RoundDetails = ({ round, guesses, setHoveredRound }) => {
   );
 }
 
-const getGuessedWords = (guessedWords, round, currentRoundWords = []) => {
+const getGuessedWordSequence = (otherRoundClues, round) => (
+  otherRoundClues
+    .filter(({ gameRound }) => gameRound === round)
+    .map(({ guess }) => guess)
+);
 
-  const guessedArray = guessedWords.filter(({ roundNumber }) => roundNumber === round);
+const getCurrentRoundGuessSequence = (currentRoundClues) => currentRoundClues.map(({ guess }) => guess || "_");
 
-  if (guessedArray.length > 0) return guessedArray.map(({ answer }) => answer || "_");
+const RoundTracker = ({ currentRound, otherRoundClues, correctGuessCount, incorrectGuessCount, setHoveredRound, currentRoundClues }) => {
+  const roundArray = Array.apply(null, { length: currentRound - 1 }).map((item, i) => i + 1);
 
-  return currentRoundWords.map(({ guess }) => guess || "_");
-}
-
-const RoundTracker = ({ roundArray, guessedWords, correctGuesses, incorrectGuesses, setHoveredRound, currentRoundWords }) => {
   return (
     <Fragment>
       <h4>Rounds</h4>
       <ul>
-        <li>Correct: {correctGuesses}</li>
-        <li>Incorrect: {incorrectGuesses}</li>
+        <li>Correct: {correctGuessCount}</li>
+        <li>Incorrect: {incorrectGuessCount}</li>
       </ul>
       <ul className="roundCountContainer">
         {
@@ -56,10 +57,15 @@ const RoundTracker = ({ roundArray, guessedWords, correctGuesses, incorrectGuess
             <RoundDetails
               key={round}
               round={round}
-              guesses={getGuessedWords(guessedWords, round, currentRoundWords)}
+              guesses={getGuessedWordSequence(otherRoundClues, round)}
               setHoveredRound={setHoveredRound}
             />))
         }
+        <RoundDetails
+          round={currentRound}
+          guesses={getCurrentRoundGuessSequence(currentRoundClues)}
+          setHoveredRound={setHoveredRound}
+        />
       </ul>
     </Fragment>
   );

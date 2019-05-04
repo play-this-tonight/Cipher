@@ -8,14 +8,15 @@ import makeGame from './MakeGame';
 
 
 const MainGame = ({
-  currentRoundWords,
+  currentRoundClues,
   currentRound,
-  correctGuesses,
-  incorrectGuesses,
-  guessedWords,
+  correctGuessCount,
+  incorrectGuessCount,
+  otherRoundClues,
   setGuessWord,
   unsetGuessWord,
   submitGuesses,
+  parentConcepts,
 }) => {
   const [indexOfNextWord, setIndexOfNextWord] = useState(0);
   const [hoveredRound, setHoveredRound] = useState([]);
@@ -23,22 +24,21 @@ const MainGame = ({
   const somethingSomething = useEffect(
     () => {
       setIndexOfNextWord(
-        () => getNextActiveInput(currentRoundWords)
+        () => getNextActiveInput(currentRoundClues)
       )
     },
-    [currentRoundWords]
+    [currentRoundClues]
   );
-
-  const roundArray = Array.apply(null, { length: currentRound }).map((item, i) => i + 1);
 
   return (
     <main className="row">
       <div className="col-xs-12">
         <div className="row">
           <Guesses
-            guessedWords={guessedWords}
+            otherRoundClues={otherRoundClues}
             hoveredRound={hoveredRound}
-            currentRoundWords={currentRoundWords}
+            currentRoundClues={currentRoundClues}
+            parentConcepts={parentConcepts}
           />
         </div>
       </div>
@@ -49,12 +49,12 @@ const MainGame = ({
             <div className="row guessRow">
               <RoundClues
                 setGuess={setGuessWord}
-                currentRoundWords={currentRoundWords}
+                currentRoundClues={currentRoundClues}
                 setIndexOfNextWord={setIndexOfNextWord}
               />
               <div className="col-xs-4">
                 <DialPad
-                  guessedNumbers={currentRoundWords.map(({ guess }) => guess)}
+                  guessedNumbers={currentRoundClues.map(({ guess }) => guess)}
                   setGuess={setGuessWord(indexOfNextWord)}
                   unsetGuess={unsetGuessWord}
                 />
@@ -64,12 +64,12 @@ const MainGame = ({
           </div>
           <aside className="col-xs-3 col-md-3 center-xs">
             <RoundTracker
-              roundArray={roundArray}
-              guessedWords={guessedWords}
-              correctGuesses={correctGuesses}
-              incorrectGuesses={incorrectGuesses}
+              currentRound={currentRound}
+              otherRoundClues={otherRoundClues}
+              correctGuessCount={correctGuessCount}
+              incorrectGuessCount={incorrectGuessCount}
               setHoveredRound={setHoveredRound}
-              currentRoundWords={currentRoundWords}
+              currentRoundClues={currentRoundClues}
             />
           </aside>
         </div>

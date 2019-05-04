@@ -13,15 +13,18 @@ export default class IntroScreen extends Component {
   }
   startGame = () => {
     startGame()
-      .then((gameState) => {
-        this.setState(state => ({ gameHasLoaded: true }))
+      .then(({ startGame: gameKey }) => {
+        this.setState(state => ({
+          gameHasLoaded: true,
+          gameKey,
+        }))
       })
   }
 
   render() {
-    const { gameHasLoaded } = this.state;
+    const { gameHasLoaded, gameKey } = this.state;
     if (gameHasLoaded) {
-      return <Redirect to="/start-game" />
+      return <Redirect to={`/game/${gameKey}`} />
     }
     return (
       <Fragment>

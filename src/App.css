@@ -151,7 +151,7 @@ input.guess {
   scroll-snap-points-x: repeat(100%);
 }
 
-.guessedWords {
+.otherRoundClues {
   scroll-snap-align: start;
   border: 2px solid var(--black);
   border-radius: 10px;

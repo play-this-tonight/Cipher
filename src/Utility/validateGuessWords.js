@@ -1,5 +1,5 @@
-const noDuplicates = (currentGuessWord, guessedWords) => {
-  const foundWord = guessedWords.find(({ guess }) => guess === currentGuessWord.guess);
+const noDuplicates = (currentGuessWord, otherRoundClues) => {
+  const foundWord = otherRoundClues.find(({ guess }) => guess === currentGuessWord.guess);
   if (foundWord.word !== currentGuessWord.word) return 'You cannot guess the same clue twice';
   return undefined;
 }
@@ -11,7 +11,7 @@ const noEmpties = ({ guess }) => {
 
 const removeInvalidProp = ({ invalid, ...rest }) => ({ ...rest })
 
-const checkGuesses = (currentGuessWord, index, guessedWords) => {
+const checkGuesses = (currentGuessWord, index, otherRoundClues) => {
   const emptyCheck = noEmpties(currentGuessWord);
   if (emptyCheck) {
     return {
@@ -19,7 +19,7 @@ const checkGuesses = (currentGuessWord, index, guessedWords) => {
       invalid: emptyCheck,
     }
   }
-  const duplicateCheck = noDuplicates(currentGuessWord, guessedWords);
+  const duplicateCheck = noDuplicates(currentGuessWord, otherRoundClues);
   if (duplicateCheck) {
     return {
       ...currentGuessWord,

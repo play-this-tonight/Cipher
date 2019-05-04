@@ -8,7 +8,7 @@ import { Mutation } from 'react-apollo';
 
 const CHECK_ANSWERS = gql`
   mutation CheckAnswers(
-    $guesses: [Guess]
+    $guesses: [Guess]!
     $gameKey: ID!
   ) {
     checkAnswers(
@@ -28,13 +28,14 @@ const CHECK_ANSWERS = gql`
   }
 `;
 
-const checkAnswers = (wordGuesses) => {
+const checkAnswers = ({ guesses, gameKey }) => {
   return client.mutate({
     mutation: CHECK_ANSWERS,
     variables: {
-      guesses: wordGuesses,
+      guesses,
+      gameKey,
     }
-  }).then(result => result.data.checkAnswers.map(result => stripTypeName(result)))
+  }).then(result => result.data.checkAnswers)
     .catch(error => console.error(error))
 }
 

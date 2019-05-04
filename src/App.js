@@ -18,8 +18,14 @@ class App extends Component {
         </header>
         <Router>
           <Route path="/" exact component={IntroScreen} />
-          <Route path="/start-game" component={MainGame} />
-          <Route path="/end-game" component={EndGame} />
+          <Route
+            path="/game/:gameKey"
+            render={({ match }) => <MainGame match={match} />}
+          />
+          <Route
+            path="/game-results/:gameKey"
+            render={({ match }) => <EndGame match={match} />}
+          />
         </Router>
       </Fragment>
     );

@@ -15,11 +15,11 @@ const sortGuesses = (guesses) => {
   ];
 }
 
-const filteredGuessedWords = (guessedWords, currentAnswer) => (
-  sortGuesses(guessedWords).filter(({ answer }) => answer === currentAnswer)
+const filteredGuessedWords = (otherRoundClues, currentAnswer) => (
+  sortGuesses(otherRoundClues).filter(({ answer }) => answer === currentAnswer)
 );
 
-const GuessedWord = ({ word, isCorrect, guess, showAnswer }) => {
+const GuessedWord = ({ childConcept, isCorrect, guess, showAnswer }) => {
   const cX = () => {
     if (isCorrect) return "correct";
     if (showAnswer) return "incorrect";
@@ -39,13 +39,13 @@ const GuessedWord = ({ word, isCorrect, guess, showAnswer }) => {
   return (
     <li
       className={`${cX()} previousGuess`}
-    >{addX()} {word} {correct()}</li>
+    >{addX()} {childConcept} {correct()}</li>
   );
 }
 
 const GameDetails = ({
-  correctGuesses,
-  incorrectGuesses,
+  correctGuessCount,
+  incorrectGuessCount,
   currentRound,
 }) => (
     <div className="col-xs-12 gameDetails">
@@ -59,13 +59,13 @@ const GameDetails = ({
         <div className="col-xs-3">
           <div className="box">
             <h2>Incorrect Guesses</h2>
-            <p>{incorrectGuesses}</p>
+            <p>{incorrectGuessCount}</p>
           </div>
         </div>
         <div className="col-xs-3">
           <div className="box">
             <h2>Correct Guesses</h2>
-            <p>{correctGuesses}</p>
+            <p>{correctGuessCount}</p>
           </div>
         </div>
       </div>
@@ -94,7 +94,7 @@ const EndGame = () => {
 
   const {
     answers,
-    guessedWords,
+    otherRoundClues,
   } = finalGameState;
 
   return (
@@ -116,9 +116,9 @@ const EndGame = () => {
                 <h3>{word}</h3>
                 <ul>
                   {
-                    filteredGuessedWords(guessedWords, parentOf).map(({ word, isCorrect, guess, showAnswer }) => (
+                    filteredGuessedWords(otherRoundClues, parentOf).map(({ childConcept, isCorrect, guess, showAnswer }) => (
                       <GuessedWord
-                        word={word}
+                        childConcept={childConcept}
                         isCorrect={isCorrect}
                         guess={guess}
                         showAnswer={showAnswer}

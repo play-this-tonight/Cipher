@@ -2,20 +2,44 @@ import React, { Component, Fragment } from 'react';
 import { checkGuesses } from '../../Utility/validateGuessWords';
 import { getGameState, startGame, checkAnswers } from '../../Graph';
 import { Redirect } from 'react-router-dom';
+import Guesses from './Guesses';
 
-const checkHasFinished = ({ correctGuesses = 0 }) => {
-  console.log("Correct Guesses here is ", correctGuesses);
-  return correctGuesses >= 3;
+// These four functions pulls out the API index of the round clues
+// And translates them to a number 1-N based on their index in the array.
+
+const getParentFromGuessIndex = (parentConcepts, guessIndex) => {
+  if (!guessIndex) return null;
+
+  return parentConcepts[guessIndex - 1];
 }
 
-// correctGuesses >= 3;
+const getGuessIndexFromParent = (parentConcepts, parent) => {
+  if (!parent) return '';
 
-const processGameState = (gameState) => ({
-  ...gameState,
-  currentRoundWords: gameState.currentRoundWords.map((word) => ({
-    ...word,
-    guess: ''
+  return parentConcepts.indexOf(parent) + 1;
+}
+
+const parseRoundClue = (
+  roundClues,
+  parentConcepts,
+) => {
+  return roundClues.map(({ userGuessedParentConceptId, parentConceptId, isCorrect, ...restOfRoundClue }) => ({
+    ...restOfRoundClue,
+    guess: getGuessIndexFromParent(parentConcepts, userGuessedParentConceptId),
+    parentConceptId: getGuessIndexFromParent(parentConcepts, parentConceptId),
+    isCorrect: !userGuessedParentConceptId ? null : isCorrect,
   }))
+}
+
+const parseGameState = ({ parentConcepts, otherRoundClues, currentRoundClues, ...restOfGameState }) => ({
+  gameState: {
+    ...restOfGameState,
+    hasFinished: restOfGameState.endedAt !== null,
+    otherRoundClues: parseRoundClue(otherRoundClues, parentConcepts),
+    currentRoundClues: parseRoundClue(currentRoundClues, parentConcepts),
+  },
+  parentConcepts,
+  hasLoaded: true,
 })
 
 const makeGame = (Game) => {
@@ -30,20 +54,21 @@ const makeGame = (Game) => {
     }
 
     componentDidMount() {
-      getGameState()
+      const { gameKey } = this.props.match.params;
+      this.gameKey = gameKey;
+      getGameState(gameKey)
         .then((gameState) => {
-          this.setState(state => ({
+          console.log(parseGameState(gameState))
+          this.setState((state) => ({
             ...state,
-            hasFinished: checkHasFinished(gameState),
-            hasLoaded: true,
-            gameState: processGameState(gameState),
+            ...parseGameState(gameState),
           }))
         })
     }
 
     setGuessWord = (index) => (value) => {
-      const { currentRoundWords } = this.state.gameState;
-      const setClues = currentRoundWords.map((item, mappingIndex) => {
+      const { currentRoundClues } = this.state.gameState;
+      const setClues = currentRoundClues.map((item, mappingIndex) => {
         if (mappingIndex === index) return {
           ...item,
           guess: value
@@ -54,16 +79,16 @@ const makeGame = (Game) => {
         ...state,
         gameState: {
           ...state.gameState,
-          currentRoundWords: setClues,
+          currentRoundClues: setClues,
         }
       }));
     };
 
     // Refactor unset to use index, and merge with setGues
     unsetGuessWord = (value) => {
-      const { currentRoundWords } = this.state.gameState;
+      const { currentRoundClues } = this.state.gameState;
 
-      const unsetClues = currentRoundWords.map((word) => {
+      const unsetClues = currentRoundClues.map((word) => {
         if (word.guess !== value) return word;
 
         return {
@@ -76,69 +101,80 @@ const makeGame = (Game) => {
         ...state,
         gameState: {
           ...state.gameState,
-          currentRoundWords: unsetClues,
+          currentRoundClues: unsetClues,
         }
       }));
     }
 
     startNextRound = () => {
+
       console.log("Round is ", this.state.gameState.currentRound)
-      getGameState().then((newGameState) => {
-        console.log(newGameState);
-        this.setState(state => ({
-          ...state,
-          hasFinished: checkHasFinished(newGameState),
-          gameState: {
-            ...state.gameState,
-            ...processGameState(newGameState)
-          }
-        }))
-      })
+      getGameState(this.gameKey)
+        .then((gameState) => {
+          console.log(parseGameState(gameState))
+          this.setState((state) => ({
+            ...state,
+            ...parseGameState(gameState),
+          }))
+        })
     }
 
     submitGuesses = () => {
       const {
         guessWords,
-        currentRoundWords,
+        currentRoundClues,
         currentRound
       } = this.state.gameState;
 
-      const checkedClueWords = currentRoundWords.map(checkGuesses);
+      const {
+        parentConcepts
+      } = this.state;
+
+      const checkedClueWords = currentRoundClues.map(checkGuesses);
 
       if (checkedClueWords.find(({ invalid }) => invalid !== undefined)) {
         this.setState(state => ({
           ...state,
           gameState: {
             ...state.gameState,
-            currentRoundWords: checkedClueWords,
+            currentRoundClues: checkedClueWords,
           }
         }));
         return;
       }
 
-      const wordsForChecking = currentRoundWords.map(({ guess, word }) => ({
-        guess,
-        word,
-      }))
+      const guesses = currentRoundClues.map(({ guess, childConcept }) => ({
+        guess: getParentFromGuessIndex(parentConcepts, guess),
+        word: childConcept,
+      }));
 
-      checkAnswers(wordsForChecking).then((guessedWords) => {
-        this.setState(state => ({
-          ...state,
-          gameState: {
-            ...state.gameState,
-            currentRoundWords: guessedWords,
-          }
-        }));
-        setTimeout(this.startNextRound, 1000);
-      })
+      const guess = {
+        gameKey: this.gameKey,
+        guesses,
+      };
+
+      checkAnswers(guess)
+        .then(({ hasGameEnded, roundClues }) => {
+          const currentRoundClues = parseRoundClue(roundClues, parentConcepts);
+          console.log(currentRoundClues);
+          this.setState(state => ({
+            ...state,
+            hasFinished: hasGameEnded,
+            gameState: {
+              ...state.gameState,
+              currentRoundClues,
+              otherRoundClues: state.gameState.otherRoundClues.concat(currentRoundClues)
+            }
+          }));
+          setTimeout(this.startNextRound, 1000);
+        })
 
     }
 
     render() {
       const { hasLoaded, hasFinished } = this.state;
 
-      if (hasFinished) return <Redirect to="/end-game" />
-
+      if (hasFinished) return <Redirect to={`/show-results/${this.gameKey}`} />
 
       return (
         <Fragment>

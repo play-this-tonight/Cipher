@@ -2,8 +2,8 @@ import React, { Fragment } from 'react';
 
 const sortGuesses = (guesses) => {
   const correct = guesses.filter(({ isCorrect }) => isCorrect);
-  const hintGiven = guesses.filter(({ isCorrect, answer }) => isCorrect === false && answer);
-  const incorrect = guesses.filter(({ answer }) => !answer);
+  const hintGiven = guesses.filter(({ isCorrect, parentConceptId }) => isCorrect === false && parentConceptId);
+  const incorrect = guesses.filter(({ parentConceptId }) => !parentConceptId);
 
   return [
     ...correct,
@@ -15,9 +15,8 @@ const sortGuesses = (guesses) => {
 const GuessDisplay = ({ guessNumber, guesses, hoveredRound, currentWord }) => {
   let highlight = "";
   if (currentWord.length > 0) highlight = "highlight";
-  console.log(currentWord);
   return (
-    <div className={`col-sm-2 col-xs-12 guessedWords`}>
+    <div className={`col-sm-2 col-xs-12 otherRoundClues`}>
       <div className="row">
         <div className="col-xs-12">
           <div className="row">
@@ -34,33 +33,33 @@ const GuessDisplay = ({ guessNumber, guesses, hoveredRound, currentWord }) => {
         </div>
         <ul className="col-xs-11 guessedWordList">
           {
-            sortGuesses(guesses).map(({ word, isCorrect, answer, roundNumber }) => (
+            sortGuesses(guesses).map(({ childConcept, isCorrect, parentConceptId, gameRound }) => (
               <GuessedWord
-                key={word}
-                word={word}
+                key={childConcept}
+                childConcept={childConcept}
                 isCorrect={isCorrect}
-                answer={answer}
-                roundNumber={roundNumber}
+                parentConceptId={parentConceptId}
+                gameRound={gameRound}
                 hoveredRound={hoveredRound}
               />
             ))
           }
-          {currentWord.length > 0 ? currentWord.map(({ word }) => <li className="col-xs-11 emphasize">{word} ?</li>) : null}
+          {currentWord.length > 0 ? currentWord.map(({ childConcept }) => <li className="col-xs-11 emphasize">{childConcept} ?</li>) : null}
         </ul>
       </div>
     </div>
   )
 }
 
-const GuessedWord = ({ word, isCorrect, answer, roundNumber, hoveredRound }) => {
+const GuessedWord = ({ childConcept, isCorrect, parentConceptId, gameRound, hoveredRound }) => {
   const showHover = () => {
-    if (hoveredRound.indexOf(roundNumber) !== -1) return 'hovered';
+    if (hoveredRound.indexOf(gameRound) !== -1) return 'hovered';
     if (hoveredRound.length > 0) return 'faded';
     return '';
   }
 
   const cX = () => {
-    if (answer === null) {
+    if (parentConceptId === '') {
       return "strikethrough";
     }
     if (!isCorrect) {
@@ -70,15 +69,29 @@ const GuessedWord = ({ word, isCorrect, answer, roundNumber, hoveredRound }) => 
   }
 
   const addX = () => {
-    if (!isCorrect && answer) return <span>x</span>;
+    if (!isCorrect && parentConceptId) return <span>x</span>;
     return null;
   }
 
   return (
     <li
       className={`${cX()} ${showHover()} previousGuess`}
-    >{addX()} {word}</li>
+    >{addX()} {childConcept}</li>
   );
+}
+
+const getGuessedWord = (
+  otherRoundClues,
+  parentClueIndex,
+) => {
+  return otherRoundClues.filter(
+    ({
+      parentConceptId,
+      guess
+    }) => (
+        (parentConceptId === '' && guess === parentClueIndex)
+        || parentConceptId === parentClueIndex)
+  )
 }
 
 const guessedButNotAnswered = (
@@ -88,7 +101,7 @@ const guessedButNotAnswered = (
   answer = null,
 ) => (answer === null && !isCorrect && guess === currentNumber)
 
-const Guesses = ({ guessedWords, hoveredRound, currentRoundWords }) => {
+const Guesses = ({ otherRoundClues, hoveredRound, currentRoundClues }) => {
   return (
     <Fragment >
       <div className="col-xs-12">
@@ -96,13 +109,13 @@ const Guesses = ({ guessedWords, hoveredRound, currentRoundWords }) => {
       <div className="col-xs-12">
         <div className="row around-sm previousGuesses">
           {
-            [1, 2, 3, 4, 5].map((number) => (
+            [1, 2, 3, 4, 5].map((parentClueIndex) => (
               <GuessDisplay
-                key={number}
-                guessNumber={number}
+                key={parentClueIndex}
+                guessNumber={parentClueIndex}
                 hoveredRound={hoveredRound}
-                currentWord={currentRoundWords.filter(({ guess }) => guess === number)}
-                guesses={guessedWords.filter(({ answer, isCorrect, guess }) => answer === number || guessedButNotAnswered(isCorrect, guess, number, answer))}
+                currentWord={currentRoundClues.filter(({ guess }) => guess === parentClueIndex)}
+                guesses={getGuessedWord(otherRoundClues, parentClueIndex)}
               />
             ))
           }
