@@ -23,7 +23,7 @@ class App extends Component {
             render={({ match }) => <MainGame match={match} />}
           />
           <Route
-            path="/game-results/:gameKey"
+            path="/show-results/:gameKey"
             render={({ match }) => <EndGame match={match} />}
           />
         </Router>

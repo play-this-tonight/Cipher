@@ -34,10 +34,10 @@ const parseRoundClue = (
 const parseGameState = ({ parentConcepts, otherRoundClues, currentRoundClues, ...restOfGameState }) => ({
   gameState: {
     ...restOfGameState,
-    hasFinished: restOfGameState.endedAt !== null,
     otherRoundClues: parseRoundClue(otherRoundClues, parentConcepts),
     currentRoundClues: parseRoundClue(currentRoundClues, parentConcepts),
   },
+  hasFinished: restOfGameState.endedAt !== null,
   parentConcepts,
   hasLoaded: true,
 })
@@ -58,6 +58,7 @@ const makeGame = (Game) => {
       this.gameKey = gameKey;
       getGameState(gameKey)
         .then((gameState) => {
+          console.log(gameState);
           console.log(parseGameState(gameState))
           this.setState((state) => ({
             ...state,
@@ -173,6 +174,8 @@ const makeGame = (Game) => {
 
     render() {
       const { hasLoaded, hasFinished } = this.state;
+
+      console.log(hasFinished);
 
       if (hasFinished) return <Redirect to={`/show-results/${this.gameKey}`} />
 

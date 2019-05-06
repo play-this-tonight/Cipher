@@ -3,8 +3,8 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 const SHOW_ANSWERS = gql`
-  {
-    showAnswers {
+  query($gameKey: ID!){
+    showFinalGameState(key: $gameKey) {
       game {
         correctGuessCount
         currentRound
@@ -15,7 +15,7 @@ const SHOW_ANSWERS = gql`
           childConcept
           sequenceLocation
           gameRound
-          guess
+          userGuessedParentConceptId
           parentConceptId
           isCorrect
         }
@@ -23,7 +23,7 @@ const SHOW_ANSWERS = gql`
           childConcept
           sequenceLocation
           gameRound
-          guess
+          userGuessedParentConceptId
           parentConceptId
           isCorrect
         }
@@ -37,11 +37,14 @@ const SHOW_ANSWERS = gql`
   }
 `;
 
-const showAnswers = () => {
+const showAnswers = (gameKey) => {
   return client.query({
     query: SHOW_ANSWERS,
+    variables: {
+      gameKey,
+    },
     fetchPolicy: 'network-only'
-  }).then(result => stripTypeName(result.data.showAnswers))
+  }).then(result => stripTypeName(result.data.showFinalGameState))
     .catch(error => console.error(error))
 }
 

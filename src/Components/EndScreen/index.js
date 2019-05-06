@@ -1,25 +1,12 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { showAnswers } from '../../Graph/showAnswers';
-
-const sortGuesses = (guesses) => {
-  const correct = guesses.filter(({ isCorrect }) => isCorrect);
-  const hintGiven = guesses.filter(({ isCorrect, showAnswer }) => isCorrect === false && showAnswer === true);
-  const incorrect = guesses.filter(({ showAnswer }) => showAnswer === false);
-
-
-
-  return [
-    ...correct,
-    ...hintGiven,
-    ...incorrect
-  ];
-}
+import { sortGuesses } from '../../Utility/sortGuesses';
 
 const filteredGuessedWords = (otherRoundClues, currentAnswer) => (
   sortGuesses(otherRoundClues).filter(({ answer }) => answer === currentAnswer)
 );
 
-const GuessedWord = ({ childConcept, isCorrect, guess, showAnswer }) => {
+const GuessedWord = ({ childConcept, isCorrect, parentConceptId, showAnswer }) => {
   const cX = () => {
     if (isCorrect) return "correct";
     if (showAnswer) return "incorrect";
@@ -32,7 +19,7 @@ const GuessedWord = ({ childConcept, isCorrect, guess, showAnswer }) => {
   }
 
   const correct = () => {
-    if (!isCorrect) return `(${guess})`;
+    if (!isCorrect) return `(${parentConceptId})`;
     return ''
   }
 
@@ -53,7 +40,7 @@ const GameDetails = ({
         <div className="col-xs-3">
           <div className="box">
             <h2>Number of Rounds</h2>
-            <p>{currentRound}</p>
+            <p>{correctGuessCount + incorrectGuessCount}</p>
           </div>
         </div>
         <div className="col-xs-3">
@@ -73,15 +60,16 @@ const GameDetails = ({
   );
 
 
-const EndGame = () => {
+const EndGame = ({ match: { params } }) => {
+  console.log(params);
   const [loading, setLoading] = useState(true);
   const [finalGameState, setFinalGameState] = useState({});
-  console.log(finalGameState);
 
   useEffect(
     () => {
       async function fetchAnswers() {
-        const finalGameState = await showAnswers();
+        const finalGameState = await showAnswers(params.gameKey);
+        console.log(finalGameState);
         setFinalGameState(finalGameState);
         setLoading(false);
       }
@@ -90,12 +78,18 @@ const EndGame = () => {
     []
   );
 
+
+
   if (loading) return (<div>Loading...</div>);
 
   const {
-    answers,
-    otherRoundClues,
+    gameAnswers,
+    game,
   } = finalGameState;
+
+  const {
+    otherRoundClues
+  } = game;
 
   return (
     <div className="row finalScreen">
@@ -103,12 +97,12 @@ const EndGame = () => {
         <h1>Game Over</h1>
       </div>
       <GameDetails
-        {...finalGameState}
+        {...game}
       />
       <div className="col-xs-12">
         <div className="row between-xs">
           {
-            answers.map(({ word, parentOf }) => (
+            gameAnswers.map(({ word, parentOf }) => (
               <div
                 className="col-xs-2"
                 key={parentOf}
@@ -116,11 +110,11 @@ const EndGame = () => {
                 <h3>{word}</h3>
                 <ul>
                   {
-                    filteredGuessedWords(otherRoundClues, parentOf).map(({ childConcept, isCorrect, guess, showAnswer }) => (
+                    filteredGuessedWords(otherRoundClues, parentOf).map(({ childConcept, isCorrect, parentConceptId, showAnswer }) => (
                       <GuessedWord
                         childConcept={childConcept}
                         isCorrect={isCorrect}
-                        guess={guess}
+                        parentConceptId={parentConceptId}
                         showAnswer={showAnswer}
                       />
                     ))
