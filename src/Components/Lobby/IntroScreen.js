@@ -33,7 +33,8 @@ export default class IntroScreen extends Component {
           <p>In this game, you are a hacker trying to break into an "encrypted vault".</p>
           <p>Each turn you'll get a clue to a non-repeating sequence, based on a series of words, related to the root words.</p>
           <p>i.e. if the root word is <bold>slow</bold>, you might see <italic>sloth</italic>, appear.</p>
-          <p>Each time you attempt a sequence, that sequence will either reset, or you'll be given a new, shorter sequence.</p>
+          <p>If you guess the sequence correctly, you'll get a shorter sequence (first four, then three, then two)</p>
+          <p>But if you guess incorrectly, the sequence for that level will reset, and you will get a new order, and a new set of words.</p>
           <p>Guess the correct sequence 3 times in order to win the game.</p>
           <p>See how quickly you can guess the sequences!</p>
           <p><span className="correct">Blue</span> Means You Got it Right</p>
