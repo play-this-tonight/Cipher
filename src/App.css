@@ -18,6 +18,11 @@ header h1 {
   margin-left: 20px;
 }
 
+h1 a {
+  text-decoration: none;
+  color: var(--white);
+}
+
 main {
   margin: 1%;
 }
@@ -164,12 +169,12 @@ li {
   list-style-type: none;
 }
 
-li.previousGuess.correct {
+.correct {
   color: var(--blue);
   font-weight: bold;
 }
 
-li.previousGuess.incorrect{
+.incorrect{
   color: var(--red);
 }
 

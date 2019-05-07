@@ -1,6 +1,6 @@
 const noDuplicates = (currentGuessWord, otherRoundClues) => {
   const foundWord = otherRoundClues.find(({ guess }) => guess === currentGuessWord.guess);
-  if (foundWord.word !== currentGuessWord.word) return 'You cannot guess the same clue twice';
+  if (foundWord.childConcept !== currentGuessWord.childConcept) return 'You cannot guess the same clue twice';
   return undefined;
 }
 

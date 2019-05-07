@@ -18,6 +18,7 @@ const SHOW_ANSWERS = gql`
           userGuessedParentConceptId
           parentConceptId
           isCorrect
+          showAnswer
         }
         currentRoundClues {
           childConcept

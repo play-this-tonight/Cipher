@@ -1,12 +1,29 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { showAnswers } from '../../Graph/showAnswers';
-import { sortGuesses } from '../../Utility/sortGuesses';
+
+const sortGuesses = (guesses) => {
+  const correct = guesses.filter(({ isCorrect }) => isCorrect);
+  const hintGiven = guesses.filter(({ isCorrect, showAnswer }) => isCorrect === false && showAnswer);
+  const incorrect = guesses.filter(({ isCorrect, showAnswer }) => isCorrect === false && !showAnswer);
+
+  return [
+    ...correct,
+    ...hintGiven,
+    ...incorrect
+  ];
+}
+
+
+export {
+  sortGuesses
+};
+
 
 const filteredGuessedWords = (otherRoundClues, parentConceptId) => (
-  sortGuesses(otherRoundClues).filter(({ userGuessedParentConceptId }) => parentConceptId === userGuessedParentConceptId)
+  sortGuesses(otherRoundClues).filter(({ parentConceptId: clueParentConceptId }) => parentConceptId === clueParentConceptId)
 );
 
-const GuessedWord = ({ childConcept, isCorrect, parentConceptId, showAnswer }) => {
+const GuessedWord = ({ childConcept, isCorrect, parentConceptId, showAnswer, userGuessedWord }) => {
   const cX = () => {
     if (isCorrect) return "correct";
     if (showAnswer) return "incorrect";
@@ -19,7 +36,7 @@ const GuessedWord = ({ childConcept, isCorrect, parentConceptId, showAnswer }) =
   }
 
   const correct = () => {
-    if (!isCorrect) return `(${parentConceptId})`;
+    if (!isCorrect) return `(${userGuessedWord})`;
     return ''
   }
 
@@ -91,6 +108,13 @@ const EndGame = ({ match: { params } }) => {
     otherRoundClues
   } = game;
 
+  const getWordFromParentAnswer = (userGuessedConceptId) => {
+    console.log(userGuessedConceptId);
+    const answer = gameAnswers.find(({ parentConceptId }) => userGuessedConceptId === parentConceptId);
+    console.log(answer);
+    return answer.parentConcept;
+  }
+
   return (
     <div className="row finalScreen">
       <div className="col-xs-12">
@@ -110,12 +134,13 @@ const EndGame = ({ match: { params } }) => {
                 <h3>{parentConcept}</h3>
                 <ul>
                   {
-                    filteredGuessedWords(otherRoundClues, parentConceptId).map(({ childConcept, isCorrect, parentConceptId: childsParentConceptId, showAnswer }) => (
+                    filteredGuessedWords(otherRoundClues, parentConceptId).map(({ childConcept, isCorrect, parentConceptId: childsParentConceptId, showAnswer, userGuessedParentConceptId }) => (
                       <GuessedWord
                         childConcept={childConcept}
                         isCorrect={isCorrect}
                         parentConceptId={childsParentConceptId}
                         showAnswer={showAnswer}
+                        userGuessedWord={getWordFromParentAnswer(userGuessedParentConceptId)}
                       />
                     ))
                   }

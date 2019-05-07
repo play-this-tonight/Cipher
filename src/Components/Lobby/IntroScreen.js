@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { startGame } from '../../Graph';
 import { Redirect } from "react-router-dom";
+import { italic } from 'ansi-colors';
 
 export default class IntroScreen extends Component {
   constructor(props) {
@@ -29,10 +30,15 @@ export default class IntroScreen extends Component {
     return (
       <Fragment>
         <section>
-          <p>You are a hacker trying to decrypt secret communications.</p>
-          <p>There are 5 secret words, known to both of the communicators but unknown to you.</p>
-          <p>Each round they will transmit 3 unique words.</p>
-          <p>Your goal is to correctly guess the squence of words being submitted. </p>
+          <p>In this game, you are a hacker trying to break into an "encrypted vault".</p>
+          <p>Each turn you'll get a clue to a non-repeating sequence, based on a series of words, related to the root words.</p>
+          <p>i.e. if the root word is <bold>slow</bold>, you might see <italic>sloth</italic>, appear.</p>
+          <p>Each time you attempt a sequence, that sequence will either reset, or you'll be given a new, shorter sequence.</p>
+          <p>Guess the correct sequence 3 times in order to win the game.</p>
+          <p>See how quickly you can guess the sequences!</p>
+          <p><span className="correct">Blue</span> Means You Got it Right</p>
+          <p><span className="incorrect">Red</span>Means You got it wrong, but you've been given a hint to the correct answer.</p>
+          <p><span className="strikethrough">Grey</span>Means You got it wrong, and we gave you no hints.</p>
         </section>
         <button onClick={this.startGame}>
           Start Game
