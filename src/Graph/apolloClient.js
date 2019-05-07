@@ -1,7 +1,7 @@
 import ApolloClient from "apollo-boost";
 
 const client = new ApolloClient({
-  uri: "http://localhost:4000"
+  uri: "http://cipher-api.playthistonight.com"
 });
 
 const stripTypeName = ({ __typename, ...rest }) => {

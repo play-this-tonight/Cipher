@@ -2,8 +2,8 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { showAnswers } from '../../Graph/showAnswers';
 import { sortGuesses } from '../../Utility/sortGuesses';
 
-const filteredGuessedWords = (otherRoundClues, currentAnswer) => (
-  sortGuesses(otherRoundClues).filter(({ answer }) => answer === currentAnswer)
+const filteredGuessedWords = (otherRoundClues, parentConceptId) => (
+  sortGuesses(otherRoundClues).filter(({ userGuessedParentConceptId }) => parentConceptId === userGuessedParentConceptId)
 );
 
 const GuessedWord = ({ childConcept, isCorrect, parentConceptId, showAnswer }) => {
@@ -102,19 +102,19 @@ const EndGame = ({ match: { params } }) => {
       <div className="col-xs-12">
         <div className="row between-xs">
           {
-            gameAnswers.map(({ word, parentOf }) => (
+            gameAnswers.map(({ parentConcept, parentConceptId }) => (
               <div
                 className="col-xs-2"
-                key={parentOf}
+                key={parentConcept}
               >
-                <h3>{word}</h3>
+                <h3>{parentConcept}</h3>
                 <ul>
                   {
-                    filteredGuessedWords(otherRoundClues, parentOf).map(({ childConcept, isCorrect, parentConceptId, showAnswer }) => (
+                    filteredGuessedWords(otherRoundClues, parentConceptId).map(({ childConcept, isCorrect, parentConceptId: childsParentConceptId, showAnswer }) => (
                       <GuessedWord
                         childConcept={childConcept}
                         isCorrect={isCorrect}
-                        parentConceptId={parentConceptId}
+                        parentConceptId={childsParentConceptId}
                         showAnswer={showAnswer}
                       />
                     ))
