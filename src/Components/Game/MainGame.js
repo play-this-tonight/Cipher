@@ -32,6 +32,11 @@ const MainGame = ({
 
   return (
     <main>
+      <div className="row">
+        <div className="col-xs-12">
+          <h2>Round {currentRound}</h2>
+        </div>
+      </div>
       <div className="row guessRow around-sm">
         <RoundClues
           setGuess={setGuessWord}

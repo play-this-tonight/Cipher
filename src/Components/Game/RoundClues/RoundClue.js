@@ -19,7 +19,7 @@ const getSpinString = ({ guess = null }) => {
 }
 
 const RoundClue = ({ clue, index, indexedSetGuess, invalid = '', setIndexOfNextWord, isCorrect, roundSize }) => (
-  <div className={`inputBox col-xs-12 col-sm-${roundSize}`}>
+  <div className={`inputBox col-xs-12 col-sm-${roundSize} ${getCorrectAnswer(clue)}`}>
     <div className="row align-center">
       <div className="lockBox col-xs-3">
         <Lock
@@ -39,7 +39,7 @@ const RoundClue = ({ clue, index, indexedSetGuess, invalid = '', setIndexOfNextW
           onClick={() => setIndexOfNextWord(index)}
         />
       </div>
-      <div className={`col-xs-6 ${getCorrectAnswer(clue)}`}>
+      <div className={`col-xs-6`}>
         <p className="roundClue">{clue.childConcept}</p>
         {
           invalid !== ''
