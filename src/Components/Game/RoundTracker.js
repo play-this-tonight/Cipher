@@ -13,61 +13,63 @@ import { hoverToDiscover } from '../../Utility/hoverToDiscover';
 //     : null
 // }
 
+const sortGuesses = (currentGuesses) => {
+  const guessesToSort = [...currentGuesses];
+  guessesToSort.sort((guessA, guessB) => guessA.sequenceLocation - guessB.sequenceLocation)
+
+  return guessesToSort;
+}
+
 const getSequenceString = (currentGuesses) => {
-  currentGuesses.sort((guessA, guessB) => guessA.sequenceLocation - guessB.sequenceLocation)
+
 
   return `[${currentGuesses.join(", ")}]`;
 }
 
 const RoundDetails = ({ round, guesses, setHoveredRound }) => {
   hoverToDiscover(round);
+  console.log(guesses);
   return (
     <li
-      className="roundDetail"
+      className="roundDetail col-xs-12"
       onMouseOver={() => setHoveredRound([round])}
       onMouseOut={() => setHoveredRound([])}
     >
-      {round} {getSequenceString(guesses)}
+      <section className="row">
+        <p className="col-xs-12 round-title">Round {round}</p>
+        {
+          sortGuesses(guesses).map(({ childConcept }) => (
+            <var className="col-xs-12">
+              {childConcept}
+            </var>
+          ))
+        }
+      </section>
     </li>
 
   );
 }
 
-const getGuessedWordSequence = (otherRoundClues, round) => (
-  otherRoundClues
-    .filter(({ gameRound }) => gameRound === round)
-    .map(({ guess }) => guess)
-);
-
-const getCurrentRoundGuessSequence = (currentRoundClues) => currentRoundClues.map(({ guess }) => guess || "_");
-
-const RoundTracker = ({ currentRound, otherRoundClues, correctGuessCount, incorrectGuessCount, setHoveredRound, currentRoundClues }) => {
+const RoundTracker = ({ currentRound, otherRoundClues, setHoveredRound }) => {
   const roundArray = Array.apply(null, { length: currentRound - 1 }).map((item, i) => i + 1);
-
+  console.log(otherRoundClues);
   return (
-    <Fragment>
-      <h4>Rounds</h4>
-      <ul>
-        <li>Correct: {correctGuessCount}</li>
-        <li>Incorrect: {incorrectGuessCount}</li>
-      </ul>
-      <ul className="roundCountContainer">
-        {
-          roundArray.map((round) => (
-            <RoundDetails
-              key={round}
-              round={round}
-              guesses={getGuessedWordSequence(otherRoundClues, round)}
-              setHoveredRound={setHoveredRound}
-            />))
-        }
-        <RoundDetails
-          round={currentRound}
-          guesses={getCurrentRoundGuessSequence(currentRoundClues)}
-          setHoveredRound={setHoveredRound}
-        />
-      </ul>
-    </Fragment>
+    <ol className="row">
+      {
+        roundArray.map((round) => (
+          <RoundDetails
+            key={round}
+            round={round}
+            guesses={otherRoundClues.filter(({ gameRound }) => gameRound === round)}
+            setHoveredRound={setHoveredRound}
+          />))
+      }
+      {/* <RoundDetails
+      round={currentRound}
+      guesses={getCurrentRoundGuessSequence(currentRoundClues)}
+      setHoveredRound={setHoveredRound}
+    /> */}
+    </ol>
   );
 }
 

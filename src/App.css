@@ -233,6 +233,11 @@ li.clue > input {
   width: 50px;
 }
 
+p.round-title {
+  margin: 10px auto;
+
+}
+
 p.validation-error {
   color: var(--red);
   font-size: 14px;
@@ -240,6 +245,11 @@ p.validation-error {
 
 .lockBox {
   position: relative;
+}
+
+aside.roundTracker {
+  max-height: 300px;
+  overflow-y: scroll;
 }
 
 .lock {

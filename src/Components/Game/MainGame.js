@@ -33,8 +33,11 @@ const MainGame = ({
   return (
     <main>
       <div className="row">
-        <div className="col-xs-12">
+        <div className="col-xs-2">
           <h2>Round {currentRound}</h2>
+        </div>
+        <div className="col-xs-2">
+          <h2>Incorrect Guesses {incorrectGuessCount}</h2>
         </div>
       </div>
       <div className="row guessRow around-sm">
@@ -45,33 +48,27 @@ const MainGame = ({
         />
       </div>
       <div className="row">
-        <div className="col-xs-12">
-          <div className="row">
-            <Guesses
-              otherRoundClues={otherRoundClues}
-              currentRoundClues={currentRoundClues}
-              parentConcepts={parentConcepts}
-              currentRound={currentRound}
-            />
-          </div>
+        <div className="col-sm-10">
+          <Guesses
+            otherRoundClues={otherRoundClues}
+            currentRoundClues={currentRoundClues}
+            parentConcepts={parentConcepts}
+            currentRound={currentRound}
+          />
         </div>
-        <div className="col-xs-12">
-          <div className="row">
-            <div className="col-xs-4">
-              <button onClick={submitGuesses}>Try Lock</button>
-            </div>
-            {/* <aside className="col-xs-3 col-md-3 center-xs">
-            <RoundTracker
-              currentRound={currentRound}
-              otherRoundClues={otherRoundClues}
-              correctGuessCount={correctGuessCount}
-              incorrectGuessCount={incorrectGuessCount}
-              setHoveredRound={setHoveredRound}
-              currentRoundClues={currentRoundClues}
-            />
-          </aside> */}
-          </div>
+        <aside className="col-sm-2 center-xs roundTracker">
+          <RoundTracker
+            currentRound={currentRound}
+            otherRoundClues={otherRoundClues}
+            setHoveredRound={setHoveredRound}
+          />
+        </aside>
+      </div>
+      <div className="row">
+        <div className="col-xs-4">
+          <button onClick={submitGuesses}>Try Lock</button>
         </div>
+
       </div>
     </main>
   );
