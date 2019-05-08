@@ -24,7 +24,8 @@ h1 a {
 }
 
 main {
-  margin: 1%;
+  margin: 10px;
+  padding: auto 15px;
 }
 
 .finalScreen {
@@ -85,32 +86,30 @@ main {
   background-color: var(--yellow);
 }
 
+.otherRoundClues ul {
+  margin: 0;
+  padding: 0;
+}
+
 input.guess {
-  margin: 28px auto;
+  margin: 0;
+}
+
+.inputBox {
+  padding-top: 20px;
+  height: 70px;
+}
+
+.align-center {
+  align-content: center;
 }
 
 .guessRow input {
-  font-size: 30px;
-  height: 40px;
+  font-size: 18px;
   text-align: center;
   width: 100%;
   /* background-color: var(--black);
   color: var(--white); */
-}
-
-.inputBox {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-
-.guessedWordList {
-  /* max-height: 300px;
-  overflow: scroll; */
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
 }
 
 .guessedWordList li {
@@ -148,34 +147,35 @@ input.guess {
   color: #61dafb;
 }
 
-.previousGuesses.row {
-  scroll-snap-type: mandatory;
-  scrolls-snap-align: start;
-  flex-wrap: nowrap;
-  overflow-x: scroll;
-  scroll-snap-points-x: repeat(100%);
+.otherRoundClues {
+  background-color: #d6e0eb;
+  scroll-snap-align: start;
+  width: 200px;
+  height: 200px;
+  margin-top: 10px;
 }
 
-.otherRoundClues {
-  scroll-snap-align: start;
-  border: 2px solid var(--black);
-  border-radius: 10px;
-  max-height: 300px;
-  overflow: scroll;
+.otherRoundClues h4 {
+  margin: 0;
   margin-top: 10px;
+  margin-left: -5px;
+}
+
+.guessedConcepts {
+  width: 100%;
+}
+
+.guessedConcepts.correctGuesses {
+  height: 50%;
+}
+
+.guessedConcepts.incorrectGuesses {
+  background-color: #b4c0b8;
+  height: 30%;
 }
 
 li {
   list-style-type: none;
-}
-
-.correct {
-  color: var(--blue);
-  font-weight: bold;
-}
-
-.incorrect{
-  color: var(--red);
 }
 
 li.previousGuess.hintNotGiven {
@@ -183,14 +183,14 @@ li.previousGuess.hintNotGiven {
   text-decoration: line-through;
 }
 
-li.previousGuess.faded {
-  opacity: 0.35;
+li.previousGuess {
+  font-size: 16px;
 }
 
-li.previousGuess.hovered {
-  font-size: 20px;
+li.previousGuess.mostRecentRound {
+  opacity: 1;
+  font-size: 17px;
   font-weight: bold;
-  text-transform: uppercase;
 }
 
 li.previousGuess span {
@@ -224,8 +224,9 @@ li.previousGuess span {
 }
 
 p.roundClue {
-  font-size: 28px;
-  text-align: center;
+  font-size: 18px;
+  text-align: left;
+  margin: 0;
 }
 
 li.clue > input {
@@ -237,21 +238,19 @@ p.validation-error {
   font-size: 14px;
 }
 
+.lockBox {
+  position: relative;
+}
+
 .lock {
   border-radius: 50%;
   background-color: var(--black);
   position: relative;
-  top: 80px;
-  left: 100%;
-  width: 60px;
-  height: 60px;
-  margin:-60px 0 0 -60px;
-}
-
-.clueBackground {
-  border-radius: 15px;
-  background-color: var(--yellow);
-  margin-top: 15px;
+  top: -5px;
+  left: -25px;
+  width: 40px;
+  height: 40px;
+  border: none;
 }
 
 .lock-correct {
@@ -260,6 +259,7 @@ p.validation-error {
 }
 
 .emphasize {
+  margin-top: 10px;
   font-style: italic;
   color: var(--white);
   background-color: var(--black);
@@ -270,19 +270,13 @@ p.validation-error {
   font-weight: bold;
 }
 
-.lockHolder {
-  position: relative;
-  border-radius: 50%;
-  height: 100%;
-  border: 5px solid var(--black);
-}
 
 .lockLine {
   position: relative;
-  left: 27px;
-  width: 6px;
+  left: 18px;
+  width: 4px;
   height: 50%;
-  background-color: var(--yellow);
+  background-color: var(--white);
 }
 
 .spin-0 {

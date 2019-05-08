@@ -1,13 +1,12 @@
 const sortGuesses = (guesses) => {
-  const correct = guesses.filter(({ isCorrect }) => isCorrect);
-  const hintGiven = guesses.filter(({ isCorrect, parentConceptId }) => isCorrect === false && parentConceptId);
-  const incorrect = guesses.filter(({ parentConceptId }) => !parentConceptId);
+  const answerGiven = guesses.filter(({ parentConceptId }) => parentConceptId);
+  const answerNotGiven = guesses.filter(({ parentConceptId }) => !parentConceptId);
 
-  return [
-    ...correct,
-    ...hintGiven,
-    ...incorrect
-  ];
+
+  return {
+    answerGiven,
+    answerNotGiven,
+  }
 }
 
 

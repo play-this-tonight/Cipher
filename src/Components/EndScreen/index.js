@@ -13,12 +13,6 @@ const sortGuesses = (guesses) => {
   ];
 }
 
-
-export {
-  sortGuesses
-};
-
-
 const filteredGuessedWords = (otherRoundClues, parentConceptId) => (
   sortGuesses(otherRoundClues).filter(({ parentConceptId: clueParentConceptId }) => parentConceptId === clueParentConceptId)
 );
@@ -58,18 +52,6 @@ const GameDetails = ({
           <div className="box">
             <h2>Number of Rounds</h2>
             <p>{correctGuessCount + incorrectGuessCount}</p>
-          </div>
-        </div>
-        <div className="col-xs-3">
-          <div className="box">
-            <h2>Incorrect Guesses</h2>
-            <p>{incorrectGuessCount}</p>
-          </div>
-        </div>
-        <div className="col-xs-3">
-          <div className="box">
-            <h2>Correct Guesses</h2>
-            <p>{correctGuessCount}</p>
           </div>
         </div>
       </div>

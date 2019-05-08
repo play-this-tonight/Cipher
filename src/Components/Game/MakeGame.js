@@ -167,7 +167,7 @@ const makeGame = (Game) => {
               otherRoundClues: state.gameState.otherRoundClues.concat(currentRoundClues)
             }
           }));
-          setTimeout(this.startNextRound, 1000);
+          setTimeout(this.startNextRound, 2000);
         })
 
     }

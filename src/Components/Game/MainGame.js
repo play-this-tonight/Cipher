@@ -2,7 +2,7 @@ import React, { Component, Fragment, useEffect, useState } from 'react';
 import Guesses from './Guesses';
 import RoundTracker from './RoundTracker';
 import DialPad from './DialPad';
-import RoundClues from './RoundClues';
+import RoundClues from './RoundClues/index';
 import { getNextActiveInput } from '../../Utility/changeActiveInput';
 import makeGame from './MakeGame';
 
@@ -31,38 +31,31 @@ const MainGame = ({
   );
 
   return (
-    <main className="row">
-      <div className="col-xs-12">
-        <div className="row">
-          <Guesses
-            otherRoundClues={otherRoundClues}
-            hoveredRound={hoveredRound}
-            currentRoundClues={currentRoundClues}
-            parentConcepts={parentConcepts}
-          />
-        </div>
+    <main>
+      <div className="row guessRow around-sm">
+        <RoundClues
+          setGuess={setGuessWord}
+          currentRoundClues={currentRoundClues}
+          setIndexOfNextWord={setIndexOfNextWord}
+        />
       </div>
-      <div className="col-xs-12">
-        <div className="row">
-
-          <div className="col-xs-9 col-md-9">
-            <div className="row guessRow">
-              <RoundClues
-                setGuess={setGuessWord}
-                currentRoundClues={currentRoundClues}
-                setIndexOfNextWord={setIndexOfNextWord}
-              />
-              <div className="col-xs-4">
-                <DialPad
-                  guessedNumbers={currentRoundClues.map(({ guess }) => guess)}
-                  setGuess={setGuessWord(indexOfNextWord)}
-                  unsetGuess={unsetGuessWord}
-                />
-                <button onClick={submitGuesses}>Try Lock</button>
-              </div>
-            </div>
+      <div className="row">
+        <div className="col-xs-12">
+          <div className="row">
+            <Guesses
+              otherRoundClues={otherRoundClues}
+              currentRoundClues={currentRoundClues}
+              parentConcepts={parentConcepts}
+              currentRound={currentRound}
+            />
           </div>
-          <aside className="col-xs-3 col-md-3 center-xs">
+        </div>
+        <div className="col-xs-12">
+          <div className="row">
+            <div className="col-xs-4">
+              <button onClick={submitGuesses}>Try Lock</button>
+            </div>
+            {/* <aside className="col-xs-3 col-md-3 center-xs">
             <RoundTracker
               currentRound={currentRound}
               otherRoundClues={otherRoundClues}
@@ -71,7 +64,8 @@ const MainGame = ({
               setHoveredRound={setHoveredRound}
               currentRoundClues={currentRoundClues}
             />
-          </aside>
+          </aside> */}
+          </div>
         </div>
       </div>
     </main>

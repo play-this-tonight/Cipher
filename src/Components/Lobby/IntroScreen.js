@@ -9,10 +9,12 @@ export default class IntroScreen extends Component {
     super(props);
     this.state = {
       gameHasLoaded: false,
+      isLoading: false,
     }
 
   }
   startGame = () => {
+    this.setState({ isLoading: true });
     startGame()
       .then(({ startGame: gameKey }) => {
         this.setState(state => ({
@@ -23,7 +25,7 @@ export default class IntroScreen extends Component {
   }
 
   render() {
-    const { gameHasLoaded, gameKey } = this.state;
+    const { gameHasLoaded, gameKey, isLoading } = this.state;
     if (gameHasLoaded) {
       return <Redirect to={`/game/${gameKey}`} />
     }
@@ -41,9 +43,12 @@ export default class IntroScreen extends Component {
           <p><span className="incorrect">Red</span>Means You got it wrong, but you've been given a hint to the correct answer.</p>
           <p><span className="strikethrough">Grey</span>Means You got it wrong, and we gave you no hints.</p>
         </section>
-        <button onClick={this.startGame}>
-          Start Game
-        </button>
+        {isLoading ? <h2>Game Is Loading...</h2>
+          :
+          <button onClick={this.startGame}>
+            Start Game
+          </button>
+        }
       </Fragment>
     );
   }
