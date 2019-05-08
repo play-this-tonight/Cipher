@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import { checkGuesses } from '../../Utility/validateGuessWords';
 import { getGameState, startGame, checkAnswers } from '../../Graph';
 import { Redirect } from 'react-router-dom';
-import Guesses from './Guesses';
 
 // These four functions pulls out the API index of the round clues
 // And translates them to a number 1-N based on their index in the array.

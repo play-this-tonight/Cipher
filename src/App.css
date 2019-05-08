@@ -263,10 +263,14 @@ aside.roundTracker {
 }
 
 .emphasize {
-  margin-top: 10px;
-  font-style: italic;
   color: var(--white);
   background-color: var(--black);
+  margin: 0;
+  font-size: 15px;
+}
+
+h4.clueGroupTitle {
+  margin: 0;
 }
 
 .lock-incorrect {

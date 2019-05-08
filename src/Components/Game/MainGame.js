@@ -1,5 +1,5 @@
 import React, { Component, Fragment, useEffect, useState } from 'react';
-import Guesses from './Guesses';
+import ClueGroups from './ClueGroups/index';
 import RoundTracker from './RoundTracker/index';
 import DialPad from './DialPad';
 import RoundClues from './RoundClues/index';
@@ -49,7 +49,7 @@ const MainGame = ({
       </div>
       <div className="row previousGuessDisplay">
         <div className="col-sm-10">
-          <Guesses
+          <ClueGroups
             otherRoundClues={otherRoundClues}
             currentRoundClues={currentRoundClues}
             parentConcepts={parentConcepts}
