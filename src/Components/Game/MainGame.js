@@ -1,7 +1,6 @@
 import React, { Component, Fragment, useEffect, useState } from 'react';
 import ClueGroups from './ClueGroups/index';
 import RoundTracker from './RoundTracker/index';
-import DialPad from './DialPad';
 import RoundClues from './RoundClues/index';
 import { getNextActiveInput } from '../../Utility/changeActiveInput';
 import makeGame from './MakeGame';
