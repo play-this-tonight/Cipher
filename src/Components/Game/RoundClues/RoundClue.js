@@ -41,13 +41,20 @@ const RoundClue = ({ clue, index, indexedSetGuess, invalid = '', setIndexOfNextW
       </div>
       <div className={`col-xs-6`}>
         <p className="roundClue">{clue.childConcept}</p>
-        {
-          invalid !== ''
-            ? <p className="validation-error">{invalid}</p>
-            : null
-        }
+
       </div>
     </div>
+    {
+      invalid !== ''
+        ?
+        <div className="row">
+          <div className="col-xs-12">
+            <p className="validation-error">{invalid}</p>
+          </div>
+        </div>
+        : null
+    }
+
   </div>
 )
 

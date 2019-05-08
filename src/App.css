@@ -44,33 +44,26 @@ main {
   text-align: center;
 }
 
-.roundDetail {
-  text-align: center;
-  background-color: var(--black);
-  padding: 10px;
-  color: var(--white);
-  margin-top: 10px;
-  display: relative;
-}
-
-.roundDetail:last-of-type {
-  background-color: var(--yellow);
-  color: var(--black);
-}
-
-.roundDetail span {
-  color: var(--black);
-  position: relative;
-  right: -50px;
-  top: -20px;
-  display: none;
-  margin: 0;
-  width: 300px;
+var {
   text-align: left;
 }
 
-.roundDetail:hover span {
-  display: block;
+.previousGuessDisplay {
+  margin-top: 20px;
+}
+
+span.answerClue {
+  font-size: 12px;
+}
+
+.roundDetail {
+  text-align: center;
+  background-color: #a7bdff;
+  padding: 10px;
+  color: var(--black);
+  margin-top: 10px;
+  display: relative;
+  border-radius: 5px;
 }
 
 .dialPad button {
@@ -241,6 +234,7 @@ p.round-title {
 p.validation-error {
   color: var(--red);
   font-size: 14px;
+  margin: 1px auto;
 }
 
 .lockBox {

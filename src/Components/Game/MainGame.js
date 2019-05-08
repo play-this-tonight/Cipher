@@ -1,6 +1,6 @@
 import React, { Component, Fragment, useEffect, useState } from 'react';
 import Guesses from './Guesses';
-import RoundTracker from './RoundTracker';
+import RoundTracker from './RoundTracker/index';
 import DialPad from './DialPad';
 import RoundClues from './RoundClues/index';
 import { getNextActiveInput } from '../../Utility/changeActiveInput';
@@ -33,11 +33,11 @@ const MainGame = ({
   return (
     <main>
       <div className="row">
-        <div className="col-xs-2">
-          <h2>Round {currentRound}</h2>
+        <div className="col-sm-2 col-xs-6">
+          <h3>Round {currentRound}</h3>
         </div>
-        <div className="col-xs-2">
-          <h2>Incorrect Guesses {incorrectGuessCount}</h2>
+        <div className="col-sm-2 col-xs-6">
+          <h3>Incorrect {incorrectGuessCount}</h3>
         </div>
       </div>
       <div className="row guessRow around-sm">
@@ -47,7 +47,7 @@ const MainGame = ({
           setIndexOfNextWord={setIndexOfNextWord}
         />
       </div>
-      <div className="row">
+      <div className="row previousGuessDisplay">
         <div className="col-sm-10">
           <Guesses
             otherRoundClues={otherRoundClues}
