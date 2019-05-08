@@ -21,22 +21,14 @@ const getSpinString = ({ guess = null }) => {
 const RoundClue = ({ clue, index, indexedSetGuess, invalid = '', setIndexOfNextWord, isCorrect, roundSize }) => (
   <div className={`inputBox col-xs-12 col-sm-${roundSize}`}>
     <div className="row align-center">
-      <div className={`col-xs-8 ${getCorrectAnswer(clue)}`}>
-        <p className="roundClue">{clue.childConcept}</p>
-        {
-          invalid !== ''
-            ? <p className="validation-error">{invalid}</p>
-            : null
-        }
-      </div>
-      <div className="lockBox col-xs-2">
+      <div className="lockBox col-xs-3">
         <Lock
           spinCounter={getSpinString(clue)}
           lockNumber={index + 1}
           correctAnswer={getCorrectAnswer(clue)}
         />
       </div>
-      <div className="col-xs-2">
+      <div className="col-xs-3">
         <input
           name={index}
           className={`guess word-${index + 1}`}
@@ -46,6 +38,14 @@ const RoundClue = ({ clue, index, indexedSetGuess, invalid = '', setIndexOfNextW
           value={clue.guess}
           onClick={() => setIndexOfNextWord(index)}
         />
+      </div>
+      <div className={`col-xs-6 ${getCorrectAnswer(clue)}`}>
+        <p className="roundClue">{clue.childConcept}</p>
+        {
+          invalid !== ''
+            ? <p className="validation-error">{invalid}</p>
+            : null
+        }
       </div>
     </div>
   </div>

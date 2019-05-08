@@ -247,7 +247,7 @@ p.validation-error {
   background-color: var(--black);
   position: relative;
   top: -5px;
-  left: -25px;
+  left: 15px;
   width: 40px;
   height: 40px;
   border: none;
