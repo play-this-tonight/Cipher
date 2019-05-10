@@ -1,6 +1,7 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import RoundWords from './RoundWords';
 import RoundClue from './RoundClue';
+import { roundClues } from './RoundClues.module.css';
 
 
 
@@ -8,7 +9,7 @@ const RoundClues = ({ setGuess, currentRoundClues, setIndexOfNextWord }) => {
   const roundSize = 12 / currentRoundClues.length;
 
   return (
-    <Fragment>
+    <div className={roundClues}>
       {currentRoundClues.map((clue, index) => {
         return (
           <RoundClue
@@ -24,7 +25,7 @@ const RoundClues = ({ setGuess, currentRoundClues, setIndexOfNextWord }) => {
         )
       }
       )}
-    </Fragment>
+    </div>
   );
 }
 

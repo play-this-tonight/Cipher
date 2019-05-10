@@ -1,0 +1,21 @@
+.mainGame {
+  width: 100vw;
+  display: flex;
+}
+
+.gameAside {
+  border: 2px solid var(--black);
+}
+
+@media (min-width: 600px) {
+  .gameAside {
+    width: 200px;
+  }
+}
+
+@media (max-width: 400px) {
+  .gameAside {
+    width: 0;
+    display: none;
+  }
+}

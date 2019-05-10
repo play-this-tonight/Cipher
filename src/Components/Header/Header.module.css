@@ -1,0 +1,23 @@
+@import '../../RootVariables.css';
+
+.gameHeader {
+  background-color: var(--black);
+  box-sizing: border-box;
+  padding: 15px 5px;
+}
+
+.gameHeader h1 {
+  margin: 0 20px;
+}
+
+.gameHeader a {
+  text-decoration: none;
+  color: var(--white);
+}
+
+
+@media (max-width: 600px) {
+  .gameHeader {
+    text-align: center;
+  }
+}

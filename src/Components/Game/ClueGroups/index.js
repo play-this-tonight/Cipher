@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import ClueGroup from './ClueGroup';
 import { sortGuesses } from './sortGuesses';
+import styles from './ClueGroups.module.css';
 
 const guessedButNotAnswered = (
   isCorrect,
@@ -11,7 +12,7 @@ const guessedButNotAnswered = (
 
 const ClueGroups = ({ otherRoundClues, currentRoundClues, currentRound }) => {
   return (
-    <div className="row around-sm previousGuesses">
+    <div className={styles.clueGroups}>
       {
         [1, 2, 3, 4, 5].map((parentClueIndex) => {
           const { correctAnswers, incorrectAnswers } = sortGuesses(otherRoundClues, parentClueIndex);

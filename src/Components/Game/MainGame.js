@@ -5,6 +5,8 @@ import RoundClues from './RoundClues/index';
 import { getNextActiveInput } from '../../Utility/changeActiveInput';
 import makeGame from './MakeGame';
 
+import styles from './Game.module.css';
+
 
 const MainGame = ({
   currentRoundClues,
@@ -30,45 +32,30 @@ const MainGame = ({
   );
 
   return (
-    <main>
-      <div className="row">
-        <div className="col-sm-2 col-xs-6">
-          <h3>Round {currentRound}</h3>
-        </div>
-        <div className="col-sm-2 col-xs-6">
-          <h3>Incorrect {incorrectGuessCount}</h3>
-        </div>
-      </div>
-      <div className="row guessRow around-sm">
+    <main className={styles.mainGame}>
+      <aside className={styles.gameAside}>
+        <h3>Round {currentRound}</h3>
+        <h3>Incorrect {incorrectGuessCount}</h3>
+        <RoundTracker
+          currentRound={currentRound}
+          otherRoundClues={otherRoundClues}
+          setHoveredRound={setHoveredRound}
+        />
+      </aside>
+      <section>
         <RoundClues
           setGuess={setGuessWord}
           currentRoundClues={currentRoundClues}
           setIndexOfNextWord={setIndexOfNextWord}
         />
-      </div>
-      <div className="row previousGuessDisplay">
-        <div className="col-sm-10">
-          <ClueGroups
-            otherRoundClues={otherRoundClues}
-            currentRoundClues={currentRoundClues}
-            parentConcepts={parentConcepts}
-            currentRound={currentRound}
-          />
-        </div>
-        <aside className="col-sm-2 center-xs roundTracker">
-          <RoundTracker
-            currentRound={currentRound}
-            otherRoundClues={otherRoundClues}
-            setHoveredRound={setHoveredRound}
-          />
-        </aside>
-      </div>
-      <div className="row">
-        <div className="col-xs-4">
-          <button onClick={submitGuesses}>Try Lock</button>
-        </div>
-
-      </div>
+        <ClueGroups
+          otherRoundClues={otherRoundClues}
+          currentRoundClues={currentRoundClues}
+          parentConcepts={parentConcepts}
+          currentRound={currentRound}
+        />
+        <button onClick={submitGuesses}>Try Lock</button>
+      </section>
     </main>
   );
 }
