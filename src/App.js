@@ -5,6 +5,8 @@ import IntroScreen from './Components/Lobby/IntroScreen';
 import EndGame from './Components/EndScreen';
 import Header from './Components/Header/index';
 import './Root.css';
+import LogRocket from 'logrocket';
+LogRocket.init('jxvzvo/cipher');
 // import 'normalize.css';
 // import './App.css';
 // import 'flexboxgrid';
