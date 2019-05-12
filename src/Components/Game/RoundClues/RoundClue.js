@@ -29,7 +29,7 @@ const getSpinString = ({ guess = null }) => {
 }
 
 const RoundClue = ({ clue, index, indexedSetGuess, invalid = '', setIndexOfNextWord, isCorrect, roundSize }) => (
-  <div className={roundClue}>
+  <div className={roundClue + ' ' + getCorrectAnswer(clue)}>
     <div className={lockBox}>
       <Lock
         spinCounter={getSpinString(clue)}

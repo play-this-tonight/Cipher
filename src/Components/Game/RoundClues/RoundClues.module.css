@@ -29,6 +29,14 @@
   border: none;
 }
 
+.lockCorrect {
+  background-color: var(--blue) !important;
+}
+
+.lockIncorrect {
+  background-color: var(--red) !important;
+}
+
 .steplist {
     display: flex;
     width: 100%;
