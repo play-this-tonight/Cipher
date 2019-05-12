@@ -1,5 +1,6 @@
 import React from 'react';
 import RoundConcept from './RoundConcept';
+import { roundTrackerDetail } from './index.module.css';
 
 const sortGuesses = (currentGuesses) => {
   const guessesToSort = [...currentGuesses];
@@ -10,17 +11,20 @@ const sortGuesses = (currentGuesses) => {
 
 const RoundDetails = ({ round, guesses, setHoveredRound }) => {
   // hoverToDiscover(round);
-  console.log(guesses);
   return (
     <li
-      className="roundDetail col-xs-12"
-    // onMouseOver={() => setHoveredRound([round])}
-    // onMouseOut={() => setHoveredRound([])}
+      className={roundTrackerDetail}
+      onMouseOver={() => setHoveredRound([round])}
+      onMouseOut={() => setHoveredRound([])}
     >
-      <section className="row">
-        <p className="col-xs-12 round-title">Round {round}</p>
-        {sortGuesses(guesses).map((props) => (<RoundConcept {...props} />))}
-      </section>
+      <p>Round {round}</p>
+      {sortGuesses(guesses).map((props, index) => (
+        <RoundConcept
+          key={index}
+          {...props}
+        />
+      ))
+      }
     </li>
 
   );

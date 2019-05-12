@@ -1,24 +1,51 @@
 .roundClues {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-around;
 }
 
 .roundClue {
-  width: 150px;
+  width: 250px;
+  height: 100px;
   border: 1px solid var(--black);
-  margin: 10px;
   text-align: center;
+  margin: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.lockBox {
+  position: relative;
 }
 
 .lock {
   border-radius: 50%;
   background-color: var(--black);
   position: relative;
-  top: -5px;
-  left: 15px;
+  top: 15px;
+  left: 5px;
   width: 40px;
   height: 40px;
   border: none;
+}
+
+.steplist {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: -23px;
+    padding-top: 0px;
+}
+.steplist option {
+    width: 2ex;
+    display: flex;
+    justify-content: center;
+    height: 42px;
+    align-items: end;
+    height: 4ex;
+    background-position-y: -15px;
+    background-position-x: center;
+    z-index: -1;
 }
 
 .lock-correct {
@@ -41,28 +68,28 @@
 }
 
 
-.spin-0 {
+.spin0 {
   animation: spin-0 1.5s 1;
   transform: rotate(360deg);
 }
 
-.spin-1 {
+.spin1 {
   animation: spin-1 1.5s 1;
   transform:rotate(420deg);
 }
-.spin-2 {
+.spin2 {
   animation: spin-2 1.5s 1;
   transform:rotate(480deg);
 }
-.spin-3 {
+.spin3 {
   animation: spin-3 1.5s 1;
   transform:rotate(540deg);
 }
-.spin-4 {
+.spin4 {
   animation: spin-4 1.5s 1;
   transform:rotate(600deg);
 }
-.spin-5 {
+.spin5 {
   animation: spin-5 1.5s 1;
   transform:rotate(660deg);
 }

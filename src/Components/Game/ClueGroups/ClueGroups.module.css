@@ -1,3 +1,57 @@
 .clueGroups {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.clueGroup {
+  width: 350px;
+  border: 1px solid var(--black);
+  margin: 20px;
+}
+
+.clueGroupHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.clueGroupHeader h3 {
+  margin: 5px 8px;
+  width: 75px;
+}
+
+.correctGuesses, .incorrectGuesses {
+  margin: 15px;
+  padding: 5px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.correctGuesses {
+  border: 1px solid var(--blue);
+}
+
+.incorrectGuesses {
+  padding: 1px 5px;
+  border: 1px solid var(--red);
+  font-size: 14px;
+  color: grey;
+}
+
+.incorrectGuesses p {
+  margin: 5px;
+}
+
+.clueGroupHeader p {
+  margin: 5px 8px;
+  background-color: var(--black);
+  color: var(--white);
+  max-width: 240px;
+  padding: 5px;
+}
+
+.showHoveredRound {
+  font-weight: bold;
+  text-decoration: underline;
 }

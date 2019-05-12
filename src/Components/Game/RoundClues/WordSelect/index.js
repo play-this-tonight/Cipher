@@ -1,33 +1,20 @@
-import React, { useEffect } from 'react';
-import debounce from '../../../../Utility/basicDebounce';
+import React, { useState, Component } from 'react';
+// import debounce from '../../../../Utility/basicDebounce';
 import { lock } from './index.module.css';
+// import { debounce } from 'lodash';
 
 const WordSelect = ({ indexedSetGuess, index, clue }) => {
-  // add Use Effect so this can handle the change withotu all of the choppiness
-
-  console.log(clue.guess);
-  const debouncedSetGuess = debounce((newValue) => {
-    indexedSetGuess(parseInt(newValue) || '')
-  }, 500);
-
   return (
-    <div>
-      <label>
-        {clue.guess}
-      </label>
-      <input
-        className={lock}
-        type="range"
-        min="1"
-        max="5"
-        value={clue.guess}
-        onChange={(e) => debouncedSetGuess(e.target.value)}
-        name={index}
-      />
-    </div>
+    <select
+      className={lock}
+      optionvalue={clue.guess || null}
+      onChange={(e) => indexedSetGuess(e.target.value)}
+      name={index}
+    >
+      {[null, 1, 2, 3, 4, 5].map((value) => <option key={value} value={value}>{value}</option>)}
+    </select>
   );
 }
-
 
 // const RadioSelect = ({ indexedSetGuess, index, clue }) => (
 //   <div className="col-xs-12">

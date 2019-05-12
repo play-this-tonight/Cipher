@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react';
 import { hoverToDiscover } from '../../../Utility/hoverToDiscover';
 import RoundDetails from './RoundDetails';
+import { roundTracker } from './index.module.css';
 
 const RoundTracker = ({ currentRound, otherRoundClues, setHoveredRound }) => {
   const roundArray = Array.apply(null, { length: currentRound - 1 }).map((item, i) => i + 1);
-  console.log(otherRoundClues);
   return (
-    <ol className="row">
+    <ol className={roundTracker}>
       {
         roundArray.map((round) => (
           <RoundDetails
@@ -16,11 +16,6 @@ const RoundTracker = ({ currentRound, otherRoundClues, setHoveredRound }) => {
             setHoveredRound={setHoveredRound}
           />))
       }
-      {/* <RoundDetails
-      round={currentRound}
-      guesses={getCurrentRoundGuessSequence(currentRoundClues)}
-      setHoveredRound={setHoveredRound}
-    /> */}
     </ol>
   );
 }

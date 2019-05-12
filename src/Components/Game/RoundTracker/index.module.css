@@ -1,0 +1,22 @@
+.roundTracker {
+  list-style-type: none;
+  margin-left: 0;
+  padding-left: 0;
+  width: 100%;
+}
+
+
+.roundTrackerDetail {
+  display: flex;
+  flex-direction: column;
+}
+
+.correct {
+  color: var(--blue);
+  font-weight: bold;
+}
+
+.strikethrough {
+  color: grey;
+  text-decoration: line-through;
+}

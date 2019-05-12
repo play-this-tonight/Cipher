@@ -1,48 +1,52 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import { clueGroup, clueGroupHeader, correctGuesses, incorrectGuesses, showHoveredRound } from './ClueGroups.module.css';
 
 const joinChildConceptsFromGuesses = (guesses) => guesses.map(({ childConcept }) => childConcept).join(",  ");
 
-// const AnswerGroup = ({ answers }) => {
-//   return (
-//     <div className="row between-xs">
-//       <div className="col-xs-10">
-//         <Answers
-//       </div>
-//     </div>
-//       )
-//     }
+const ChildConcepts = ({ concepts, hoveredRound }) => {
+  return (
+    <Fragment>
+      {
+        concepts.map(({ childConcept, gameRound }) => (
+          <span
+            key={childConcept}
+            className={gameRound === hoveredRound ? showHoveredRound : null}
+          >{childConcept}, </span>
+        ))
+      }
+    </Fragment>
+  )
+}
 
-const ClueGroup = ({ guessNumber, currentRoundClues, lastRound, correctAnswers, incorrectAnswers }) => {
+const ClueGroup = ({ guessNumber, currentRoundClues, lastRound, correctAnswers, incorrectAnswers, hoveredRound }) => {
   let highlight = "";
   // if (currentWord.length > 0) highlight = "highlight";
-
   const currentGuesses = currentRoundClues
     .filter(({ guess }) => guess == guessNumber);
 
   return (
-    <div className="col-xs-8 col-sm-4 clueGroup">
-      <header>
-        <h4 className="col-xs-2 clueGroupTitle">Group {guessNumber}</h4>
-        <p className="col-xs-8 emphasize">{currentGuesses ? joinChildConceptsFromGuesses(currentGuesses) : null}</p>
+    <div className={clueGroup}>
+      <header className={clueGroupHeader}>
+        <h3>Group {guessNumber}</h3>
+        <p>{currentGuesses ? joinChildConceptsFromGuesses(currentGuesses) : null}</p>
       </header>
-      <section>
-
-      </section>
-      <div className="row">
-        <h5 className="col-xs-12">
-          Correct Answers
-        </h5>
-        <div className="col-xs-12">{joinChildConceptsFromGuesses(correctAnswers)}</div>
-      </div>
-      <div className="row">
-        <div className="incorrectAnswerGroup">
-          <h5 className="col-xs-12">
-            Incorrect Answers
-          </h5>
-          <p className="col-xs-12">{joinChildConceptsFromGuesses(incorrectAnswers)}</p>
-        </div>
-      </div>
-    </div>
+      {
+        correctAnswers.length ?
+          <section className={correctGuesses}>
+            <p><ChildConcepts concepts={correctAnswers} hoveredRound={hoveredRound} /></p>
+            <i className="la la-check-circle"></i>
+          </section>
+          : null
+      }
+      {
+        incorrectAnswers.length ?
+          <section className={incorrectGuesses}>
+            <p><ChildConcepts concepts={incorrectAnswers} hoveredRound={hoveredRound} /></p>
+            <p><i className="la la-times-circle-o" /></p>
+          </section>
+          : null
+      }
+    </div >
   )
 }
 

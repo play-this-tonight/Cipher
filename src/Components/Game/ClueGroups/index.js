@@ -10,7 +10,7 @@ const guessedButNotAnswered = (
   answer = null,
 ) => (answer === null && !isCorrect && guess === currentNumber)
 
-const ClueGroups = ({ otherRoundClues, currentRoundClues, currentRound }) => {
+const ClueGroups = ({ otherRoundClues, currentRoundClues, currentRound, hoveredRound }) => {
   return (
     <div className={styles.clueGroups}>
       {
@@ -22,6 +22,7 @@ const ClueGroups = ({ otherRoundClues, currentRoundClues, currentRound }) => {
             currentRoundClues={currentRoundClues}
             correctAnswers={correctAnswers}
             incorrectAnswers={incorrectAnswers}
+            hoveredRound={hoveredRound ? hoveredRound[0] : null}
           />)
         })
       }

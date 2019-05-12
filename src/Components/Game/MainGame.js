@@ -53,6 +53,7 @@ const MainGame = ({
           currentRoundClues={currentRoundClues}
           parentConcepts={parentConcepts}
           currentRound={currentRound}
+          hoveredRound={hoveredRound}
         />
         <button onClick={submitGuesses}>Try Lock</button>
       </section>

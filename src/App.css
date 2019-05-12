@@ -217,10 +217,6 @@ p.validation-error {
   margin: 1px auto;
 }
 
-.lockBox {
-  position: relative;
-}
-
 aside.roundTracker {
   max-height: 300px;
   overflow-y: scroll;
