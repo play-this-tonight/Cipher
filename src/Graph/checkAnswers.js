@@ -1,9 +1,7 @@
-import { client, stripTypeName } from './apolloClient';
+import { client } from './apolloClient';
 import gql from 'graphql-tag';
-import { Mutation } from 'react-apollo';
 
 // const GUESS_INPUT = gql`
-
 // `;
 
 const CHECK_ANSWERS = gql`

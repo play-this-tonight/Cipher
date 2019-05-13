@@ -1,8 +1,7 @@
-import React, { Component, Fragment, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import ClueGroups from './ClueGroups/index';
 import RoundTracker from './RoundTracker/index';
 import RoundClues from './RoundClues/index';
-import { getNextActiveInput } from '../../Utility/changeActiveInput';
 import makeGame from './MakeGame';
 
 import styles from './Game.module.css';
@@ -22,14 +21,16 @@ const MainGame = ({
   const [indexOfNextWord, setIndexOfNextWord] = useState(0);
   const [hoveredRound, setHoveredRound] = useState([]);
 
-  const somethingSomething = useEffect(
-    () => {
-      setIndexOfNextWord(
-        () => getNextActiveInput(currentRoundClues)
-      )
-    },
-    [currentRoundClues]
-  );
+  console.log("Index of Next Word is ", indexOfNextWord)
+
+  // const somethingSomething = useEffect(
+  //   () => {
+  //     setIndexOfNextWord(
+  //       () => getNextActiveInput(currentRoundClues)
+  //     )
+  //   },
+  //   [currentRoundClues]
+  // );
 
   return (
     <main className={styles.mainGame}>

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { checkGuesses } from '../../Utility/validateGuessWords';
-import { getGameState, startGame, checkAnswers } from '../../Graph';
+import { getGameState, checkAnswers } from '../../Graph';
 import { Redirect } from 'react-router-dom';
 
 // These four functions pulls out the API index of the round clues
@@ -121,9 +121,7 @@ const makeGame = (Game) => {
 
     submitGuesses = () => {
       const {
-        guessWords,
         currentRoundClues,
-        currentRound
       } = this.state.gameState;
 
       const {

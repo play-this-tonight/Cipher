@@ -1,10 +1,9 @@
-import React, { Fragment } from 'react';
-import { hoverToDiscover } from '../../../Utility/hoverToDiscover';
+import React from 'react';
 import RoundDetails from './RoundDetails';
 import { roundTracker } from './index.module.css';
 
 const RoundTracker = ({ currentRound, otherRoundClues, setHoveredRound }) => {
-  const roundArray = Array.apply(null, { length: currentRound - 1 }).map((item, i) => i + 1);
+  const roundArray = Array.apply(null, { length: currentRound - 1 }).map((item, i) => i + 1).sort((a, b) => b - a);
   return (
     <ol className={roundTracker}>
       {

@@ -1,6 +1,5 @@
 import { client, stripTypeName } from './apolloClient';
 import gql from 'graphql-tag';
-import { Mutation } from 'react-apollo';
 
 // Reminder to remove sequenceLocation hre...
 const START_GAME = gql`

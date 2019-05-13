@@ -1,14 +1,14 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import ClueGroup from './ClueGroup';
 import { sortGuesses } from './sortGuesses';
 import styles from './ClueGroups.module.css';
 
-const guessedButNotAnswered = (
-  isCorrect,
-  guess,
-  currentNumber,
-  answer = null,
-) => (answer === null && !isCorrect && guess === currentNumber)
+// const guessedButNotAnswered = (
+//   isCorrect,
+//   guess,
+//   currentNumber,
+//   answer = null,
+// ) => (answer === null && !isCorrect && guess === currentNumber)
 
 const ClueGroups = ({ otherRoundClues, currentRoundClues, currentRound, hoveredRound }) => {
   return (

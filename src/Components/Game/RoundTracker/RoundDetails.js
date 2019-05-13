@@ -10,7 +10,6 @@ const sortGuesses = (currentGuesses) => {
 }
 
 const RoundDetails = ({ round, guesses, setHoveredRound }) => {
-  // hoverToDiscover(round);
   return (
     <li
       className={roundTrackerDetail}

@@ -19,10 +19,8 @@ const ChildConcepts = ({ concepts, hoveredRound }) => {
 }
 
 const ClueGroup = ({ guessNumber, currentRoundClues, lastRound, correctAnswers, incorrectAnswers, hoveredRound }) => {
-  let highlight = "";
-  // if (currentWord.length > 0) highlight = "highlight";
   const currentGuesses = currentRoundClues
-    .filter(({ guess }) => guess == guessNumber);
+    .filter(({ guess }) => guess === parseInt(guessNumber));
 
   return (
     <div className={clueGroup}>

@@ -1,5 +1,4 @@
 import React from 'react';
-import RoundWords from './RoundWords';
 import RoundClue from './RoundClue';
 import { roundClues } from './RoundClues.module.css';
 

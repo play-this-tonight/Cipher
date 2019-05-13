@@ -1,6 +1,5 @@
 import { client, stripTypeName } from './apolloClient';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
 
 const SHOW_ANSWERS = gql`
   query($gameKey: ID!){

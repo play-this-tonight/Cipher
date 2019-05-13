@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router-dom';
 import { startGame } from '../../Graph';
 import { Redirect } from "react-router-dom";
 import { italic } from 'ansi-colors';
