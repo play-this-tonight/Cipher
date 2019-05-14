@@ -1,6 +1,6 @@
 import React from 'react';
 import ClueGroup from './ClueGroup';
-import { sortGuesses } from './sortGuesses';
+import { filterGuessedThisRound } from './sortGuesses';
 import styles from './ClueGroups.module.css';
 
 // const guessedButNotAnswered = (
@@ -15,13 +15,11 @@ const ClueGroups = ({ otherRoundClues, currentRoundClues, currentRound, hoveredR
     <div className={styles.clueGroups}>
       {
         [1, 2, 3, 4, 5].map((parentClueIndex) => {
-          const { correctAnswers, incorrectAnswers } = sortGuesses(otherRoundClues, parentClueIndex);
           return (<ClueGroup
             key={parentClueIndex}
             guessNumber={parentClueIndex}
             currentRoundClues={currentRoundClues}
-            correctAnswers={correctAnswers}
-            incorrectAnswers={incorrectAnswers}
+            roundGuesses={filterGuessedThisRound(otherRoundClues, parentClueIndex)}
             hoveredRound={hoveredRound ? hoveredRound[0] : null}
           />)
         })

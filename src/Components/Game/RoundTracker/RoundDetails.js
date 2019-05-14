@@ -2,12 +2,14 @@ import React from 'react';
 import RoundConcept from './RoundConcept';
 import { roundTrackerDetail } from './index.module.css';
 
-const sortGuesses = (currentGuesses) => {
-  const guessesToSort = [...currentGuesses];
-  guessesToSort.sort((guessA, guessB) => guessA.sequenceLocation - guessB.sequenceLocation)
+// const sortGuesses = (currentGuesses) => {
+//   const guessesToSort = [...currentGuesses];
+//   guessesToSort.sort((guessA, guessB) => guessA.sequenceLocation - guessB.sequenceLocation)
 
-  return guessesToSort;
-}
+//   return guessesToSort;
+// }
+
+const guessToCorrectIncorrect = (guesses) => guesses.map(({ isCorrect }) => (isCorrect ? '✓' : 'X'));
 
 const RoundDetails = ({ round, guesses, setHoveredRound }) => {
   return (
@@ -16,16 +18,8 @@ const RoundDetails = ({ round, guesses, setHoveredRound }) => {
       onMouseOver={() => setHoveredRound([round])}
       onMouseOut={() => setHoveredRound([])}
     >
-      <p>Round {round}</p>
-      {sortGuesses(guesses).map((props, index) => (
-        <RoundConcept
-          key={index}
-          {...props}
-        />
-      ))
-      }
+      <p>Round {round} [{guessToCorrectIncorrect(guesses)}]</p>
     </li>
-
   );
 }
 

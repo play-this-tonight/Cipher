@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { getNextActiveInput } from '../../Utility/changeActiveInput';
 import ClueGroups from './ClueGroups/index';
 import RoundTracker from './RoundTracker/index';
 import RoundClues from './RoundClues/index';
@@ -21,16 +22,14 @@ const MainGame = ({
   const [indexOfNextWord, setIndexOfNextWord] = useState(0);
   const [hoveredRound, setHoveredRound] = useState([]);
 
-  console.log("Index of Next Word is ", indexOfNextWord)
-
-  // const somethingSomething = useEffect(
-  //   () => {
-  //     setIndexOfNextWord(
-  //       () => getNextActiveInput(currentRoundClues)
-  //     )
-  //   },
-  //   [currentRoundClues]
-  // );
+  useEffect(
+    () => {
+      setIndexOfNextWord(
+        () => getNextActiveInput(currentRoundClues)
+      )
+    },
+    [currentRoundClues]
+  );
 
   return (
     <main className={styles.mainGame}>
@@ -44,17 +43,17 @@ const MainGame = ({
         />
       </aside>
       <section>
-        <RoundClues
-          setGuess={setGuessWord}
-          currentRoundClues={currentRoundClues}
-          setIndexOfNextWord={setIndexOfNextWord}
-        />
         <ClueGroups
           otherRoundClues={otherRoundClues}
           currentRoundClues={currentRoundClues}
           parentConcepts={parentConcepts}
           currentRound={currentRound}
           hoveredRound={hoveredRound}
+        />
+        <RoundClues
+          setGuess={setGuessWord}
+          currentRoundClues={currentRoundClues}
+          setIndexOfNextWord={setIndexOfNextWord}
         />
         <button onClick={submitGuesses}>Try Lock</button>
       </section>

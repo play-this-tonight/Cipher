@@ -5,10 +5,16 @@
 }
 
 .clueGroup {
-  width: 350px;
+  width: 175px;
   border: 1px solid var(--black);
   margin: 20px;
   background-color: white;
+}
+
+.roundGuessGroup {
+  list-style: none;
+  padding-left: 0;
+  text-align: center;
 }
 
 .clueGroupHeader {
@@ -19,6 +25,16 @@
 .clueGroupHeader h3 {
   margin: 5px 8px;
   width: 75px;
+}
+
+.hideIncorrect {
+  color: grey;
+  text-decoration: line-through;
+  display: none;
+}
+
+.correctAnswer {
+  color: green;
 }
 
 .correctGuesses, .incorrectGuesses {
@@ -44,7 +60,7 @@
   margin: 5px;
 }
 
-.clueGroupHeader p {
+.currentGuessStyle {
   margin: 5px 8px;
   background-color: var(--black);
   color: var(--white);
@@ -54,5 +70,7 @@
 
 .showHoveredRound {
   font-weight: bold;
-  text-decoration: underline;
+  /* text-decoration: underline; */
+  display: inherit;
+  font-size: 17px;
 }
