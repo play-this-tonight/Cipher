@@ -1,5 +1,6 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import { showAnswers } from '../../Graph/showAnswers';
+import { gameDetails, wordDetails } from './index.module.css';
 
 const sortGuesses = (guesses) => {
   const correct = guesses.filter(({ isCorrect }) => isCorrect);
@@ -12,12 +13,6 @@ const sortGuesses = (guesses) => {
     ...incorrect
   ];
 }
-
-
-export {
-  sortGuesses
-};
-
 
 const filteredGuessedWords = (otherRoundClues, parentConceptId) => (
   sortGuesses(otherRoundClues).filter(({ parentConceptId: clueParentConceptId }) => parentConceptId === clueParentConceptId)
@@ -52,27 +47,9 @@ const GameDetails = ({
   incorrectGuessCount,
   currentRound,
 }) => (
-    <div className="col-xs-12 gameDetails">
-      <div className="row between-xs">
-        <div className="col-xs-3">
-          <div className="box">
-            <h2>Number of Rounds</h2>
-            <p>{correctGuessCount + incorrectGuessCount}</p>
-          </div>
-        </div>
-        <div className="col-xs-3">
-          <div className="box">
-            <h2>Incorrect Guesses</h2>
-            <p>{incorrectGuessCount}</p>
-          </div>
-        </div>
-        <div className="col-xs-3">
-          <div className="box">
-            <h2>Correct Guesses</h2>
-            <p>{correctGuessCount}</p>
-          </div>
-        </div>
-      </div>
+    <div className={gameDetails}>
+      <h2>Number of Rounds</h2>
+      <p>{correctGuessCount + incorrectGuessCount}</p>
     </div>
   );
 
@@ -109,9 +86,9 @@ const EndGame = ({ match: { params } }) => {
   } = game;
 
   const getWordFromParentAnswer = (userGuessedConceptId) => {
-    console.log(userGuessedConceptId);
+    // console.log(userGuessedConceptId);
     const answer = gameAnswers.find(({ parentConceptId }) => userGuessedConceptId === parentConceptId);
-    console.log(answer);
+    // console.log(answer);
     return answer.parentConcept;
   }
 
@@ -123,32 +100,30 @@ const EndGame = ({ match: { params } }) => {
       <GameDetails
         {...game}
       />
-      <div className="col-xs-12">
-        <div className="row between-xs">
-          {
-            gameAnswers.map(({ parentConcept, parentConceptId }) => (
-              <div
-                className="col-xs-2"
-                key={parentConcept}
-              >
-                <h3>{parentConcept}</h3>
-                <ul>
-                  {
-                    filteredGuessedWords(otherRoundClues, parentConceptId).map(({ childConcept, isCorrect, parentConceptId: childsParentConceptId, showAnswer, userGuessedParentConceptId }) => (
-                      <GuessedWord
-                        childConcept={childConcept}
-                        isCorrect={isCorrect}
-                        parentConceptId={childsParentConceptId}
-                        showAnswer={showAnswer}
-                        userGuessedWord={getWordFromParentAnswer(userGuessedParentConceptId)}
-                      />
-                    ))
-                  }
-                </ul>
-              </div>
-            ))
-          }
-        </div>
+      <div className={wordDetails}>
+        {
+          gameAnswers.map(({ parentConcept, parentConceptId }) => (
+            <div
+              className="col-xs-2"
+              key={parentConcept}
+            >
+              <h3>{parentConcept}</h3>
+              <ul>
+                {
+                  filteredGuessedWords(otherRoundClues, parentConceptId).map(({ childConcept, isCorrect, parentConceptId: childsParentConceptId, showAnswer, userGuessedParentConceptId }) => (
+                    <GuessedWord
+                      childConcept={childConcept}
+                      isCorrect={isCorrect}
+                      parentConceptId={childsParentConceptId}
+                      showAnswer={showAnswer}
+                      userGuessedWord={getWordFromParentAnswer(userGuessedParentConceptId)}
+                    />
+                  ))
+                }
+              </ul>
+            </div>
+          ))
+        }
       </div>
     </div>
   );

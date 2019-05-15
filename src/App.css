@@ -1,30 +1,11 @@
-body {
-  margin: 50px;
-  --red: #C1292E;
-  --black: #161925;
-  --white: #dbe4ee;
-  --yellow: #f1d302;
-  --blue: #235789;
-  font-family: 'Lato', sans-serif;
-  background-color: var(--white);
-  margin: 0;
-}
 header {
   background-color: var(--black);
   color: var(--white);
 }
 
-header h1 {
-  margin-left: 20px;
-}
-
-h1 a {
-  text-decoration: none;
-  color: var(--white);
-}
-
 main {
-  margin: 1%;
+  margin: 10px;
+  padding: auto 15px;
 }
 
 .finalScreen {
@@ -43,33 +24,26 @@ main {
   text-align: center;
 }
 
-.roundDetail {
-  text-align: center;
-  background-color: var(--black);
-  padding: 10px;
-  color: var(--white);
-  margin-top: 10px;
-  display: relative;
-}
-
-.roundDetail:last-of-type {
-  background-color: var(--yellow);
-  color: var(--black);
-}
-
-.roundDetail span {
-  color: var(--black);
-  position: relative;
-  right: -50px;
-  top: -20px;
-  display: none;
-  margin: 0;
-  width: 300px;
+var {
   text-align: left;
 }
 
-.roundDetail:hover span {
-  display: block;
+.previousGuessDisplay {
+  margin-top: 20px;
+}
+
+span.answerClue {
+  font-size: 12px;
+}
+
+.roundDetail {
+  text-align: center;
+  background-color: #a7bdff;
+  padding: 10px;
+  color: var(--black);
+  margin-top: 10px;
+  display: relative;
+  border-radius: 5px;
 }
 
 .dialPad button {
@@ -85,32 +59,30 @@ main {
   background-color: var(--yellow);
 }
 
+.otherRoundClues ul {
+  margin: 0;
+  padding: 0;
+}
+
 input.guess {
-  margin: 28px auto;
+  margin: 0;
+}
+
+.inputBox {
+  padding-top: 20px;
+  height: 70px;
+}
+
+.align-center {
+  align-content: center;
 }
 
 .guessRow input {
-  font-size: 30px;
-  height: 40px;
+  font-size: 18px;
   text-align: center;
   width: 100%;
   /* background-color: var(--black);
   color: var(--white); */
-}
-
-.inputBox {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-
-.guessedWordList {
-  /* max-height: 300px;
-  overflow: scroll; */
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
 }
 
 .guessedWordList li {
@@ -148,34 +120,35 @@ input.guess {
   color: #61dafb;
 }
 
-.previousGuesses.row {
-  scroll-snap-type: mandatory;
-  scrolls-snap-align: start;
-  flex-wrap: nowrap;
-  overflow-x: scroll;
-  scroll-snap-points-x: repeat(100%);
+.otherRoundClues {
+  background-color: #d6e0eb;
+  scroll-snap-align: start;
+  width: 200px;
+  height: 200px;
+  margin-top: 10px;
 }
 
-.otherRoundClues {
-  scroll-snap-align: start;
-  border: 2px solid var(--black);
-  border-radius: 10px;
-  max-height: 300px;
-  overflow: scroll;
+.otherRoundClues h4 {
+  margin: 0;
   margin-top: 10px;
+  margin-left: -5px;
+}
+
+.guessedConcepts {
+  width: 100%;
+}
+
+.guessedConcepts.correctGuesses {
+  height: 50%;
+}
+
+.guessedConcepts.incorrectGuesses {
+  background-color: #b4c0b8;
+  height: 30%;
 }
 
 li {
   list-style-type: none;
-}
-
-.correct {
-  color: var(--blue);
-  font-weight: bold;
-}
-
-.incorrect{
-  color: var(--red);
 }
 
 li.previousGuess.hintNotGiven {
@@ -183,14 +156,14 @@ li.previousGuess.hintNotGiven {
   text-decoration: line-through;
 }
 
-li.previousGuess.faded {
-  opacity: 0.35;
+li.previousGuess {
+  font-size: 16px;
 }
 
-li.previousGuess.hovered {
-  font-size: 20px;
+li.previousGuess.mostRecentRound {
+  opacity: 1;
+  font-size: 17px;
   font-weight: bold;
-  text-transform: uppercase;
 }
 
 li.previousGuess span {
@@ -224,110 +197,54 @@ li.previousGuess span {
 }
 
 p.roundClue {
-  font-size: 28px;
-  text-align: center;
+  font-size: 18px;
+  text-align: left;
+  margin: 0;
 }
 
 li.clue > input {
   width: 50px;
 }
 
+p.round-title {
+  margin: 10px auto;
+
+}
+
 p.validation-error {
   color: var(--red);
   font-size: 14px;
+  margin: 1px auto;
 }
 
-.lock {
-  border-radius: 50%;
-  background-color: var(--black);
-  position: relative;
-  top: 80px;
-  left: 100%;
-  width: 60px;
-  height: 60px;
-  margin:-60px 0 0 -60px;
+aside.roundTracker {
+  max-height: 300px;
+  overflow-y: scroll;
 }
 
-.clueBackground {
-  border-radius: 15px;
-  background-color: var(--yellow);
-  margin-top: 15px;
+.clueGroup {
+  margin: 5px 10px;
+  background-color: white;
+  border-radius: 3px;
+  box-sizing: border-box;
+  padding-top: 15px;
 }
 
-.lock-correct {
-  background-color: var(--blue) !important;
-  font-weight: bold;
+.incorrectAnswerGroup {
+  background-color: lightslategrey;
+  margin: 20px;
+  min-height: 100px;
+  height: 100%;
+  width: 100%;
 }
 
 .emphasize {
-  font-style: italic;
   color: var(--white);
   background-color: var(--black);
+  margin: 0;
+  font-size: 15px;
 }
 
-.lock-incorrect {
-  background-color: var(--red) !important;
-  font-weight: bold;
+h4.clueGroupTitle {
+  margin: 0;
 }
-
-.lockHolder {
-  position: relative;
-  border-radius: 50%;
-  height: 100%;
-  border: 5px solid var(--black);
-}
-
-.lockLine {
-  position: relative;
-  left: 27px;
-  width: 6px;
-  height: 50%;
-  background-color: var(--yellow);
-}
-
-.spin-0 {
-  animation: spin-0 1.5s 1;
-  transform: rotate(360deg);
-}
-
-.spin-1 {
-  animation: spin-1 1.5s 1;
-  transform:rotate(420deg);
-}
-.spin-2 {
-  animation: spin-2 1.5s 1;
-  transform:rotate(480deg);
-}
-.spin-3 {
-  animation: spin-3 1.5s 1;
-  transform:rotate(540deg);
-}
-.spin-4 {
-  animation: spin-4 1.5s 1;
-  transform:rotate(600deg);
-}
-.spin-5 {
-  animation: spin-5 1.5s 1;
-  transform:rotate(660deg);
-}
-
-@keyframes spin-0 {
-  0% { -webkit-transform: rotate(0deg); transform:rotate(0deg);}
-  100% { -webkit-transform:rotate(-360deg); transform:rotate(-360deg);
-  }
-}
-@keyframes spin-1 {
-  0% { -webkit-transform: rotate(0deg); transform:rotate(0deg);}
-  100% { -webkit-transform:rotate(420deg); transform:rotate(420deg); } }
-@keyframes spin-2 {
-  0% { -webkit-transform: rotate(0deg); transform:rotate(0deg);}
-  100% { -webkit-transform:rotate(480deg); transform:rotate(480deg); } }
-@keyframes spin-3 {
-  0% { -webkit-transform: rotate(0deg); transform:rotate(0deg);}
-  100% { -webkit-transform:rotate(540deg); transform:rotate(540deg); } }
-@keyframes spin-4 {
-  0% { -webkit-transform: rotate(0deg); transform:rotate(0deg);}
-  100% { -webkit-transform:rotate(600deg); transform:rotate(600deg); } }
-@keyframes spin-5 {
-  0% { -webkit-transform: rotate(0deg); transform:rotate(0deg);}
-  100% { -webkit-transform: rotate(660deg) ; transform:rotate(660deg); } }

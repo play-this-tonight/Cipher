@@ -1,6 +1,5 @@
 import { client, stripTypeName } from './apolloClient';
 import gql from 'graphql-tag';
-import { Query, Mutation } from 'react-apollo';
 
 const GET_GAME_STATE = gql`
   query($gameKey: ID!){

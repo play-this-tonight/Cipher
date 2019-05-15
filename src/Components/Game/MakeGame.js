@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { checkGuesses } from '../../Utility/validateGuessWords';
-import { getGameState, startGame, checkAnswers } from '../../Graph';
+import { getGameState, checkAnswers } from '../../Graph';
 import { Redirect } from 'react-router-dom';
-import Guesses from './Guesses';
 
 // These four functions pulls out the API index of the round clues
 // And translates them to a number 1-N based on their index in the array.
@@ -122,9 +121,7 @@ const makeGame = (Game) => {
 
     submitGuesses = () => {
       const {
-        guessWords,
         currentRoundClues,
-        currentRound
       } = this.state.gameState;
 
       const {
@@ -167,7 +164,7 @@ const makeGame = (Game) => {
               otherRoundClues: state.gameState.otherRoundClues.concat(currentRoundClues)
             }
           }));
-          setTimeout(this.startNextRound, 1000);
+          setTimeout(this.startNextRound, 2000);
         })
 
     }
