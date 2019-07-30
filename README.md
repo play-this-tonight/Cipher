@@ -12,6 +12,11 @@ npm install // or yarn install
 
 By default the local environment will target the production version of the API.  In order to change this, boot the API server locally and override the uri in `apolloClient.js` with the local version.
 
+To start the environman
+```
+npm start // or yarn start
+```
+
 ## Deploy Changes
 
 Changes will automatically deploy on merge with master.  
