@@ -1,64 +1,49 @@
-import React, { useState, useEffect } from 'react';
-import { getNextActiveInput } from '../../Utility/changeActiveInput';
-import ClueGroups from './ClueGroups/index';
-import RoundTracker from './RoundTracker/index';
-import RoundClues from './RoundClues/index';
-import makeGame from './MakeGame';
+import React, { useState, useEffect, useContext } from "react";
+import { getNextActiveInput } from "../../Utility/changeActiveInput";
+import WordGroups from "./WordGroups/index";
+import RoundTracker from "./RoundTracker/index";
+import ClueCards from "./ClueCards";
+import { makeGame, store } from "./MakeGame";
+import Button from "@material-ui/core/Button";
+import { Redirect } from "react-router-dom";
 
-import styles from './Game.module.css';
+import styles from "./Game.module.css";
 
+const MainGame = ({ gameKey }) => {
+  const {
+    gameState: { currentRoundClues, currentRound, parentConcepts },
+    hasFinished,
+    submitGuesses: submitGuessesFinal,
+  } = useContext(store);
+  const [, setIndexOfNextWord] = useState(0);
 
-const MainGame = ({
-  currentRoundClues,
-  currentRound,
-  correctGuessCount,
-  incorrectGuessCount,
-  otherRoundClues,
-  setGuessWord,
-  unsetGuessWord,
-  submitGuesses,
-  parentConcepts,
-}) => {
-  const [indexOfNextWord, setIndexOfNextWord] = useState(0);
-  const [hoveredRound, setHoveredRound] = useState([]);
+  const submitGuesses = () => {
+    submitGuessesFinal(currentRoundClues, parentConcepts);
+  };
 
-  useEffect(
-    () => {
-      setIndexOfNextWord(
-        () => getNextActiveInput(currentRoundClues)
-      )
-    },
-    [currentRoundClues]
-  );
+  useEffect(() => {
+    setIndexOfNextWord(() => getNextActiveInput(currentRoundClues));
+  }, [currentRoundClues]);
+
+  if (hasFinished) {
+    return <Redirect to={`/show-results/${gameKey}`} />;
+  }
 
   return (
     <main className={styles.mainGame}>
       <aside className={styles.gameAside}>
         <h3>Round {currentRound}</h3>
-        <h3>Incorrect {incorrectGuessCount}</h3>
-        <RoundTracker
-          currentRound={currentRound}
-          otherRoundClues={otherRoundClues}
-          setHoveredRound={setHoveredRound}
-        />
+        <RoundTracker />
       </aside>
       <section>
-        <ClueGroups
-          otherRoundClues={otherRoundClues}
-          currentRoundClues={currentRoundClues}
-          parentConcepts={parentConcepts}
-          currentRound={currentRound}
-          hoveredRound={hoveredRound}
-        />
-        <RoundClues
-          setGuess={setGuessWord}
-          currentRoundClues={currentRoundClues}
-          setIndexOfNextWord={setIndexOfNextWord}
-        />
-        <button onClick={submitGuesses}>Try Lock</button>
+        <ClueCards />
+        <WordGroups />
+        <Button variant="contained" color="primary" onClick={submitGuesses}>
+          Try Lock
+        </Button>
       </section>
     </main>
   );
-}
+};
 
 export default makeGame(MainGame);

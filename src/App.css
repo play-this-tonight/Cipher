@@ -54,7 +54,8 @@ span.answerClue {
   color: var(--yellow);
 }
 
-.dialPad button:hover, .dialPad button.pressed {
+.dialPad button:hover,
+.dialPad button.pressed {
   color: var(--black);
   background-color: var(--yellow);
 }
@@ -179,7 +180,7 @@ li.previousGuess span {
   background: darkgrey;
   border-radius: 15px;
   padding: 10px;
-  justify-content:   space-between;
+  justify-content: space-between;
 }
 
 .green {
@@ -208,7 +209,6 @@ li.clue > input {
 
 p.round-title {
   margin: 10px auto;
-
 }
 
 p.validation-error {
@@ -222,7 +222,7 @@ aside.roundTracker {
   overflow-y: scroll;
 }
 
-.clueGroup {
+.WordGroup {
   margin: 5px 10px;
   background-color: white;
   border-radius: 3px;
@@ -245,6 +245,6 @@ aside.roundTracker {
   font-size: 15px;
 }
 
-h4.clueGroupTitle {
+h4.WordGroupTitle {
   margin: 0;
 }

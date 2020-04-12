@@ -1,18 +1,14 @@
 import ApolloClient from "apollo-boost";
 
 const client = new ApolloClient({
-  uri: "http://cipher-api.playthistonight.com",
-  // uri: "http://localhost:4000"
+  uri: process.env.REACT_APP_API_URL,
 });
 
 const stripTypeName = ({ __typename, ...rest }) => {
-  if (typeof rest !== 'object') return rest;
+  if (typeof rest !== "object") return rest;
   return {
-    ...rest
+    ...rest,
   };
 };
 
-export {
-  client,
-  stripTypeName,
-};
+export { client, stripTypeName };

@@ -5,15 +5,18 @@
   width: 100%;
 }
 
-
 .roundTrackerDetail {
   display: flex;
-  flex-direction: column;
 }
 
 .correct {
   color: var(--blue);
   font-weight: bold;
+  font-size: 20px;
+}
+
+.incorrect {
+  text-decoration: line-through;
 }
 
 .strikethrough {

@@ -1,13 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import MainGame from './Components/Game/MainGame';
-import IntroScreen from './Components/Lobby/IntroScreen';
-import EndGame from './Components/EndScreen';
-import Header from './Components/Header/index';
-import './Root.css';
-import LogRocket from 'logrocket';
-import 'normalize.css';
-LogRocket.init('jxvzvo/cipher');
+import MainGame from "./Components/Game/MainGame";
+import IntroScreen from "./Components/Lobby/IntroScreen";
+import EndGame from "./Components/EndScreen";
+import Header from "./Components/Header/index";
+import "./Root.css";
+import "normalize.css";
+
 // import './App.css';
 // import 'flexboxgrid';
 
