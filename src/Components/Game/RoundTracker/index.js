@@ -1,22 +1,33 @@
-import React from 'react';
-import RoundDetails from './RoundDetails';
-import { roundTracker } from './index.module.css';
+import React from "react";
+import RoundDetails from "./RoundDetails";
+import { roundTracker } from "./index.module.css";
 
-const RoundTracker = ({ currentRound, otherRoundClues, setHoveredRound }) => {
-  const roundArray = Array.apply(null, { length: currentRound - 1 }).map((item, i) => i + 1).sort((a, b) => b - a);
+const RoundTracker = ({ roundClues }) => {
+  const roundGuesses = roundClues.reduce(
+    (roundArray, { gameRound, guess, sequenceLocation, isCorrect }) => {
+      if (!roundArray[gameRound]) {
+        roundArray[gameRound] = [{ guess, sequenceLocation, isCorrect }];
+      } else {
+        roundArray[gameRound].push({ guess, sequenceLocation, isCorrect });
+      }
+
+      return roundArray;
+    },
+    []
+  );
+
   return (
     <ol className={roundTracker}>
-      {
-        roundArray.map((round) => (
-          <RoundDetails
-            key={round}
-            round={round}
-            guesses={otherRoundClues.filter(({ gameRound }) => gameRound === round)}
-            setHoveredRound={setHoveredRound}
-          />))
-      }
+      {roundGuesses.map((round, idx) => {
+        const roundClues = [...round].sort(
+          ({ sequenceLocation: a }, { sequenceLocation: b }) => {
+            return a - b;
+          }
+        );
+        return <RoundDetails key={idx} round={idx} guesses={roundClues} />;
+      })}
     </ol>
   );
-}
+};
 
 export default RoundTracker;

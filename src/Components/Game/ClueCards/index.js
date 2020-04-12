@@ -1,17 +1,15 @@
-import React from 'react';
-import RoundClue from './RoundClue';
-import { roundClues } from './RoundClues.module.css';
+import React from "react";
+import ClueCard from "./ClueCard";
+import { roundClues } from "./RoundClues.module.css";
 
-
-
-const RoundClues = ({ setGuess, currentRoundClues, setIndexOfNextWord }) => {
+const ClueCards = ({ setGuess, currentRoundClues, setIndexOfNextWord }) => {
   const roundSize = 12 / currentRoundClues.length;
 
   return (
     <div className={roundClues}>
       {currentRoundClues.map((clue, index) => {
         return (
-          <RoundClue
+          <ClueCard
             key={`clue-${index}`}
             clue={clue}
             index={index}
@@ -21,11 +19,10 @@ const RoundClues = ({ setGuess, currentRoundClues, setIndexOfNextWord }) => {
             isCorrect={clue.isCorrect}
             roundSize={roundSize}
           />
-        )
-      }
-      )}
+        );
+      })}
     </div>
   );
-}
+};
 
-export default RoundClues;
+export default ClueCards;
