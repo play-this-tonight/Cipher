@@ -1,22 +1,47 @@
-import React from 'react';
-import RoundDetails from './RoundDetails';
-import { roundTracker } from './index.module.css';
+import React, { useContext } from "react";
+import RoundDetails from "./RoundDetails";
+import { store } from "../MakeGame";
+import { roundTracker } from "./index.module.css";
 
-const RoundTracker = ({ currentRound, otherRoundClues, setHoveredRound }) => {
-  const roundArray = Array.apply(null, { length: currentRound - 1 }).map((item, i) => i + 1).sort((a, b) => b - a);
-  return (
-    <ol className={roundTracker}>
-      {
-        roundArray.map((round) => (
-          <RoundDetails
-            key={round}
-            round={round}
-            guesses={otherRoundClues.filter(({ gameRound }) => gameRound === round)}
-            setHoveredRound={setHoveredRound}
-          />))
+const RoundTracker = () => {
+  const {
+    gameState: { otherRoundClues: roundClues },
+  } = useContext(store);
+  const roundGuesses = roundClues.reduce(
+    (
+      roundArray,
+      { gameRound, guess, sequenceLocation, isCorrect, childConcept }
+    ) => {
+      if (!roundArray[gameRound]) {
+        roundArray[gameRound] = [
+          { guess, sequenceLocation, isCorrect, childConcept },
+        ];
+      } else {
+        roundArray[gameRound].push({
+          guess,
+          sequenceLocation,
+          isCorrect,
+          childConcept,
+        });
       }
-    </ol>
+
+      return roundArray;
+    },
+    []
   );
-}
+
+  return (
+    <div className={roundTracker}>
+      {roundGuesses.map((round, idx) => {
+        const roundClues = [...round].sort(
+          ({ sequenceLocation: a }, { sequenceLocation: b }) => {
+            return a - b;
+          }
+        );
+        return <RoundDetails key={idx} round={idx} guesses={roundClues} />;
+      })}
+    </div>
+  );
+};
 
 export default RoundTracker;
