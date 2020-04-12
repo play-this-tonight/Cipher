@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import RoundDetails from "./RoundDetails";
+import { store } from "../MakeGame";
 import { roundTracker } from "./index.module.css";
 
-const RoundTracker = ({ roundClues }) => {
+const RoundTracker = () => {
+  const {
+    gameState: { otherRoundClues: roundClues },
+  } = useContext(store);
   const roundGuesses = roundClues.reduce(
     (
       roundArray,

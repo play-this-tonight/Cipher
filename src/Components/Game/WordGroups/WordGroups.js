@@ -1,7 +1,6 @@
 import React, { Fragment } from "react";
 import {
   clueGroup,
-  clueGroupHeader,
   showHoveredRound,
   roundGuessGroup,
   hideIncorrect,
@@ -11,7 +10,6 @@ import {
 import cx from "classnames";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import CardHeader from "@material-ui/core/CardHeader";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 
