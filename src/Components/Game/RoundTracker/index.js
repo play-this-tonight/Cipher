@@ -4,11 +4,21 @@ import { roundTracker } from "./index.module.css";
 
 const RoundTracker = ({ roundClues }) => {
   const roundGuesses = roundClues.reduce(
-    (roundArray, { gameRound, guess, sequenceLocation, isCorrect }) => {
+    (
+      roundArray,
+      { gameRound, guess, sequenceLocation, isCorrect, childConcept }
+    ) => {
       if (!roundArray[gameRound]) {
-        roundArray[gameRound] = [{ guess, sequenceLocation, isCorrect }];
+        roundArray[gameRound] = [
+          { guess, sequenceLocation, isCorrect, childConcept },
+        ];
       } else {
-        roundArray[gameRound].push({ guess, sequenceLocation, isCorrect });
+        roundArray[gameRound].push({
+          guess,
+          sequenceLocation,
+          isCorrect,
+          childConcept,
+        });
       }
 
       return roundArray;
@@ -17,7 +27,7 @@ const RoundTracker = ({ roundClues }) => {
   );
 
   return (
-    <ol className={roundTracker}>
+    <div className={roundTracker}>
       {roundGuesses.map((round, idx) => {
         const roundClues = [...round].sort(
           ({ sequenceLocation: a }, { sequenceLocation: b }) => {
@@ -26,7 +36,7 @@ const RoundTracker = ({ roundClues }) => {
         );
         return <RoundDetails key={idx} round={idx} guesses={roundClues} />;
       })}
-    </ol>
+    </div>
   );
 };
 

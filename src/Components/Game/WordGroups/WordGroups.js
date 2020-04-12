@@ -9,9 +9,11 @@ import {
   currentGuessStyle,
 } from "./WordGroups.module.css";
 import cx from "classnames";
-
-const joinChildConceptsFromGuesses = (guesses) =>
-  guesses.map(({ childConcept }) => childConcept).join(",  ");
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import CardHeader from "@material-ui/core/CardHeader";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
 
 const ChildConcepts = ({ concepts, hoveredRound }) => {
   return (
@@ -38,7 +40,6 @@ const ChildConcepts = ({ concepts, hoveredRound }) => {
 const ClueGroup = ({
   guessNumber,
   currentRoundClues,
-  lastRound,
   roundGuesses,
   hoveredRound,
 }) => {
@@ -47,21 +48,24 @@ const ClueGroup = ({
   );
 
   return (
-    <div className={clueGroup}>
-      <header className={clueGroupHeader}>
-        <h3>Group {guessNumber}</h3>
-      </header>
-      <ul className={roundGuessGroup}>
-        {currentGuesses.length
-          ? currentGuesses.map(({ childConcept }) => (
-              <li key={childConcept} className={currentGuessStyle}>
-                {childConcept}
-              </li>
-            ))
-          : null}
-        <ChildConcepts concepts={roundGuesses} hoveredRound={hoveredRound} />
-      </ul>
-    </div>
+    <Card className={clueGroup}>
+      <CardContent>
+        {/* <CardHeader> */}
+        <Typography>{guessNumber}</Typography>
+        <TextField label="Guess" />
+        {/* </CardHeader> */}
+        <ul className={roundGuessGroup}>
+          {currentGuesses.length
+            ? currentGuesses.map(({ childConcept }) => (
+                <li key={childConcept} className={currentGuessStyle}>
+                  {childConcept}
+                </li>
+              ))
+            : null}
+          <ChildConcepts concepts={roundGuesses} hoveredRound={hoveredRound} />
+        </ul>
+      </CardContent>
+    </Card>
   );
 };
 
