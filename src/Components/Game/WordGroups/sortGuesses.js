@@ -1,11 +1,19 @@
-const filterGuessedThisRound = (guesses, parentClueIndex) => {
-  const filteredGuesses = guesses.filter(
-    ({ guess }) => guess === parentClueIndex
-  );
+const filterGuessesInWordGroup = (guesses, parentClueIndex) => {
+  return guesses.filter(({ guess }) => guess === parentClueIndex);
+};
 
-  return filteredGuesses.sort(
-    ({ isCorrect: aC }, { isCorrect: bC }) => bC - aC
+const filterHypothesesInWordGroup = (guesses, parentClueIndex) => {
+  return guesses.filter(({ hypothesis }) => hypothesis === parentClueIndex);
+};
+
+const filterCurrentRoundGuessesInWordGroup = (guesses, parentClueIndex) => {
+  return guesses.filter(
+    ({ guess }) => Number.parseInt(guess, 10) === parentClueIndex
   );
 };
 
-export { filterGuessedThisRound };
+export {
+  filterCurrentRoundGuessesInWordGroup,
+  filterGuessesInWordGroup,
+  filterHypothesesInWordGroup,
+};

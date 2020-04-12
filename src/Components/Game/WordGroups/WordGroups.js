@@ -3,17 +3,17 @@ import {
   clueGroup,
   showHoveredRound,
   roundGuessGroup,
-  hideIncorrect,
   correctAnswer,
   currentGuessStyle,
 } from "./WordGroups.module.css";
 import cx from "classnames";
 import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 
-const ChildConcepts = ({ concepts, hoveredRound }) => {
+const ChildConcepts = ({ concepts, isCurrentRound }) => {
   return (
     // gameRound === hoveredRound ? showHoveredRound : null
     <Fragment>
@@ -22,9 +22,8 @@ const ChildConcepts = ({ concepts, hoveredRound }) => {
           <li
             key={childConcept}
             className={cx({
-              [showHoveredRound]: gameRound === hoveredRound,
-              [hideIncorrect]: !isCorrect,
               [correctAnswer]: isCorrect,
+              [currentGuessStyle]: isCurrentRound,
             })}
           >
             {childConcept}
@@ -37,30 +36,28 @@ const ChildConcepts = ({ concepts, hoveredRound }) => {
 
 const ClueGroup = ({
   guessNumber,
-  currentRoundClues,
-  roundGuesses,
-  hoveredRound,
+  guessesInWordGroup,
+  hypothesesInWordGroup,
+  currentRoundGuesses,
 }) => {
-  const currentGuesses = currentRoundClues.filter(
-    ({ guess }) => guess == guessNumber
+  const correctGuesses = guessesInWordGroup.filter(
+    ({ isCorrect }) => isCorrect
   );
-
   return (
     <Card className={clueGroup}>
+      <CardHeader title={`Group ${guessNumber}`} />
       <CardContent>
-        {/* <CardHeader> */}
-        <Typography>{guessNumber}</Typography>
-        <TextField label="Guess" />
-        {/* </CardHeader> */}
+        <TextField label="Hypothesis" />
         <ul className={roundGuessGroup}>
-          {currentGuesses.length
-            ? currentGuesses.map(({ childConcept }) => (
-                <li key={childConcept} className={currentGuessStyle}>
-                  {childConcept}
-                </li>
-              ))
-            : null}
-          <ChildConcepts concepts={roundGuesses} hoveredRound={hoveredRound} />
+          <ChildConcepts concepts={currentRoundGuesses} isCurrentRound />
+        </ul>
+        <Typography>Correct</Typography>
+        <ul className={roundGuessGroup}>
+          <ChildConcepts concepts={correctGuesses} />
+        </ul>
+        <Typography>New Hypotheses</Typography>
+        <ul>
+          <ChildConcepts concepts={hypothesesInWordGroup} />
         </ul>
       </CardContent>
     </Card>

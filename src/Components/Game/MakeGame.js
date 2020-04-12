@@ -40,15 +40,31 @@ const parseRoundClue = (roundClues, parentConcepts) => {
   );
 };
 
-const parseGameState = ({
-  parentConcepts,
-  otherRoundClues,
-  currentRoundClues,
-  ...restOfGameState
-}) => ({
+const findRoundClue = (roundClues, childConceptToFind) =>
+  roundClues.find(({ childConcept }) => childConcept === childConceptToFind);
+
+const mergeNewAndOldRoundClues = (newRoundClues, oldRoundClues = []) => {
+  return newRoundClues.map((roundClue) => ({
+    ...findRoundClue(oldRoundClues, roundClue.childConcept),
+    ...roundClue,
+  }));
+};
+
+const parseGameState = (
+  {
+    parentConcepts,
+    otherRoundClues: newOtherRoundClues,
+    currentRoundClues,
+    ...restOfGameState
+  },
+  otherRoundClues
+) => ({
   gameState: {
     ...restOfGameState,
-    otherRoundClues: parseRoundClue(otherRoundClues, parentConcepts),
+    otherRoundClues: parseRoundClue(
+      mergeNewAndOldRoundClues(newOtherRoundClues, otherRoundClues),
+      parentConcepts
+    ),
     currentRoundClues: parseRoundClue(currentRoundClues, parentConcepts),
   },
   hasFinished: restOfGameState.endedAt !== null,
@@ -73,6 +89,7 @@ const makeGame = (Game) => {
       getGameState(gameKey).then((gameState) => {
         console.log(gameState);
         console.log(parseGameState(gameState));
+        console.log("start game");
         this.setState((state) => ({
           ...state,
           ...parseGameState(gameState),
@@ -90,6 +107,7 @@ const makeGame = (Game) => {
           };
         return item;
       });
+      console.log("set guess word");
       this.setState((state) => ({
         ...state,
         gameState: {
@@ -101,11 +119,13 @@ const makeGame = (Game) => {
 
     startNextRound = () => {
       console.log("Round is ", this.state.gameState.currentRound);
+      const { otherRoundClues } = this.state.gameState;
       getGameState(this.gameKey).then((gameState) => {
         console.log(parseGameState(gameState));
+        console.log("start next round");
         this.setState((state) => ({
           ...state,
-          ...parseGameState(gameState),
+          ...parseGameState(gameState, otherRoundClues),
         }));
       });
     };
@@ -124,8 +144,7 @@ const makeGame = (Game) => {
         }
       );
 
-      console.log(otherRoundClues);
-
+      console.log("set hypothesies");
       this.setState((state) => ({
         ...state,
         gameState: {
@@ -142,6 +161,7 @@ const makeGame = (Game) => {
 
       const checkedClueWords = currentRoundClues.map(checkGuesses);
 
+      console.log("submit guess");
       if (checkedClueWords.find(({ invalid }) => invalid !== undefined)) {
         this.setState((state) => ({
           ...state,
@@ -165,7 +185,7 @@ const makeGame = (Game) => {
 
       checkAnswers(guess).then(({ hasGameEnded, roundClues }) => {
         const currentRoundClues = parseRoundClue(roundClues, parentConcepts);
-        console.log(currentRoundClues);
+        console.log("check answer");
         this.setState((state) => ({
           ...state,
           hasFinished: hasGameEnded,
